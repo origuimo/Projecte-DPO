@@ -42,7 +42,6 @@ public class MonstreJson {
                     tmpMonsterJSON.getString("damageType"));
             monstres.add(b);
         };
-        System.out.println(monstres.get(10));
-        //hola
+        System.out.println(monstres.get(5));
     }
 }
