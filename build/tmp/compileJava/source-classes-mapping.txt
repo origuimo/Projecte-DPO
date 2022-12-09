@@ -1,0 +1,30 @@
+Business/Party.java
+ Business.Party
+Business/Aventurer.java
+ Business.Aventurer
+Presentation/Controller.java
+ Presentation.Controller
+Business/Personatge.java
+ Business.Personatge
+Persistance/AventuraJson.java
+ Persistance.AventuraJson
+Business/Jugador.java
+ Business.Jugador
+Business/Dau.java
+ Business.Dau
+Business/BusinessManager.java
+ Business.BusinessManager
+Business/Aventura.java
+ Business.Aventura
+Persistance/Dao.java
+ Persistance.Dao
+Persistance/PersonatgeJson.java
+ Persistance.PersonatgeJson
+Main.java
+ Main
+Business/Combat.java
+ Business.Combat
+Business/Monstre.java
+ Business.Monstre
+Persistance/MonstreJson.java
+ Persistance.MonstreJson
