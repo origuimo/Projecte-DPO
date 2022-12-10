@@ -12,7 +12,7 @@ public class MonstreJson {
     public static void main(String[] args) {
 
         String input = "";
-        File a = new File("src/main/java/Persistance/monsters.json");
+        File a = new File("src/main/java/Fitxers/monsters.json");
 
         try {
             BufferedReader fileReader = new BufferedReader(new FileReader(a));
@@ -24,7 +24,7 @@ public class MonstreJson {
                 tmp = fileReader.readLine();
             }
         } catch (Exception e) {
-            System.out.println("caca");
+            System.out.println("ERROR");
         }
 
         var monstresJSON = new JSONArray(input);
@@ -42,6 +42,6 @@ public class MonstreJson {
                     tmpMonsterJSON.getString("damageType"));
             monstres.add(b);
         };
-        System.out.println(monstres.get(5));
+        System.out.println(monstres.get(10));
     }
 }
