@@ -5,26 +5,24 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.nio.file.Files;
 import java.util.ArrayList;
 
 
 public class MonstreJson {
-    public static void main(String[] args) {
 
+    public static ArrayList<Monstre> llegirMonstres() throws IOException {
+        boolean llegit;
         String input = "";
         File a = new File("src/main/java/Fitxers/monsters.json");
 
-        try {
-            BufferedReader fileReader = new BufferedReader(new FileReader(a));
+        BufferedReader fileReader = new BufferedReader(new FileReader(a));
 
-            String tmp = fileReader.readLine();
+        String tmp = fileReader.readLine();
 
-            while (tmp != null){
-                input += tmp;
-                tmp = fileReader.readLine();
-            }
-        } catch (Exception e) {
-            System.out.println("ERROR");
+        while (tmp != null){
+        input += tmp;
+        tmp = fileReader.readLine();
         }
 
         var monstresJSON = new JSONArray(input);
@@ -41,7 +39,7 @@ public class MonstreJson {
                     tmpMonsterJSON.getString("damageDice"),
                     tmpMonsterJSON.getString("damageType"));
             monstres.add(b);
-        };
-        System.out.println(monstres.get(10));
+        }
+        return monstres;
     }
 }
