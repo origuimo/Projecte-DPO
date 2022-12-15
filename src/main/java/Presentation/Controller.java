@@ -75,16 +75,19 @@ public class Controller {
                         int dau1 = nums.get(0);
                         int dau2 = nums.get(1);
                         int sum = dau1 + dau2;
+
                         System.out.println("Body:\tYou rolled " + sum + " (" + dau1 + " and " + dau2 + ").");
                         nums = daus6cares();
                         dau1 = nums.get(0);
                         dau2 = nums.get(1);
                         sum = dau1 + dau2;
+
                         System.out.println("Mind:\tYou rolled " + sum + " (" + dau1 + " and " + dau2 + ").");
                         nums = daus6cares();
                         dau1 = nums.get(0);
                         dau2 = nums.get(1);
                         sum = dau1 + dau2;
+
                         System.out.println("Spirit: You rolled " + sum + " (" + dau1 + " and " + dau2 + ").\n");
                         System.out.println("Your states are:");
                         System.out.println("\t- Body: ");
