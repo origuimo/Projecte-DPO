@@ -8,9 +8,9 @@ public class Dau {
 
         ArrayList<Integer> nums = new ArrayList<>();
         int numero1 = (int) (Math.random() * 6 + 1);
-        nums.add(0);
+        nums.add(numero1);
         int numero2 = (int) (Math.random() * 6 + 1);
-        nums.add(1);
+        nums.add(numero2);
 
         return nums;
     }
