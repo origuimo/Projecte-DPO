@@ -71,26 +71,47 @@ public class Controller {
                         System.out.println("Taverner keeper: " + "\"" + "Oh, so you are level" + nivell + "!\"\n\"" +
                                 "Great, let me get a closer look at you..." + "\"\n");
                         System.out.println("Generating your stats...\n");
+                        ArrayList<Integer> numeros = new ArrayList<>();
                         nums = daus6cares();
                         int dau1 = nums.get(0);
                         int dau2 = nums.get(1);
                         int sum = dau1 + dau2;
+                        numeros.add(sum);
 
                         System.out.println("Body:\tYou rolled " + sum + " (" + dau1 + " and " + dau2 + ").");
                         nums = daus6cares();
                         dau1 = nums.get(0);
                         dau2 = nums.get(1);
                         sum = dau1 + dau2;
+                        numeros.add(sum);
 
                         System.out.println("Mind:\tYou rolled " + sum + " (" + dau1 + " and " + dau2 + ").");
                         nums = daus6cares();
                         dau1 = nums.get(0);
                         dau2 = nums.get(1);
                         sum = dau1 + dau2;
+                        numeros.add(sum);
 
                         System.out.println("Spirit: You rolled " + sum + " (" + dau1 + " and " + dau2 + ").\n");
+
+                        for (int i = 0; i < 3; i++) {
+                            if(numeros.get(i) == 2){
+                                numeros.set(i, -1);
+                            }else if (numeros.get(i) >= 3 && numeros.get(i) <= 5){
+                                numeros.set(i, 0);
+                            }else if (numeros.get(i) >= 6 && numeros.get(i) <= 9){
+                                numeros.set(i, 1);
+                            }else if (numeros.get(i) >= 10 && numeros.get(i) <= 11) {
+                                numeros.set(i, 2);
+                            }else if (numeros.get(i) == 12){
+                                numeros.set(i, 3);
+                            }
+                        }
+
                         System.out.println("Your states are:");
-                        System.out.println("\t- Body: ");
+                        System.out.println("\t- Body: " + numeros.get(0));
+                        System.out.println("\t- Mind: " + numeros.get(1));
+                        System.out.println("\t- Spirit: " + numeros.get(2));
                         break;
                     case 2:
 

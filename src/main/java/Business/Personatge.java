@@ -31,4 +31,60 @@ public class Personatge {
                 ", tipus='" + tipus + '\'' +
                 '}';
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public void setPlayer(String player) {
+        this.player = player;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
+    }
+
+    public int getBody() {
+        return body;
+    }
+
+    public void setBody(int body) {
+        this.body = body;
+    }
+
+    public int getMind() {
+        return mind;
+    }
+
+    public void setMind(int mind) {
+        this.mind = mind;
+    }
+
+    public int getSpirit() {
+        return spirit;
+    }
+
+    public void setSpirit(int spirit) {
+        this.spirit = spirit;
+    }
+
+    public String getTipus() {
+        return tipus;
+    }
+
+    public void setTipus(String tipus) {
+        this.tipus = tipus;
+    }
 }
