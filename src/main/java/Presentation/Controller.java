@@ -179,10 +179,47 @@ public class Controller {
                         }
                         j--;
                         personatgeAux = personatges.get(j);
-                        System.out.println("Tavern keeper: \"Hey " + personatgeAux.getName() + "get here; the boss wants to see you!\"\n");
+                        System.out.println("Tavern keeper: \"Hey " + personatgeAux.getName() + " get here; the boss wants to see you!\"\n");
                         System.out.println(personatgeAux.toString());
+                        System.out.println("[Enter name to delete, or press enter to cancel]");
+                        System.out.println("Do you want to delete " + personatgeAux.getName()+ "?");
+                        String nomEliminar = scanner.nextLine();
+                        if(nomEliminar.isEmpty()){
+
+                        }else if(nomEliminar.equals(personatgeAux.getName())){
+                            System.out.println("\nTavern keeper: \"I'm sorry kiddo, but you have to leave.\"\n");
+                            System.out.println("Character " + personatgeAux.getName() + " left the Guild");
+                            personatges.remove(j);
+                        }
                         break;
                     case 3:
+                        System.out.println("Tavern keeper: “Planning an adventure? Good luck with that!”\n");
+                        System.out.println("-> Name your adventure: ");
+                        String nomAdventura = scanner.nextLine();
+                        System.out.println("Tavern keeper: “You plan to undertake" + nomAdventura + ", really?”\n" +
+                                "“How long will that take?”");
+                        System.out.println("-> How many encounters do you want [1..4]: ");
+                        int enfrentaments = 0;
+                        ok = true;
+                        try{
+                            enfrentaments = Integer.parseInt(scanner.nextLine());
+                        }catch (Exception e){
+                            System.out.println("\tInvalid format of encounters");
+                            ok = false;
+                        }
+                        while(enfrentaments > 4 || enfrentaments < 1 || !ok){
+                            System.out.println("\tPlease enter a valid number: ");
+                            try{
+                                enfrentaments = Integer.parseInt(scanner.nextLine());
+                                ok = true;
+                            }catch (Exception e){
+                                System.out.println("\tInvalid format of encounters");
+                                ok = false;
+                            }
+                        }
+                        System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...”");
+                        i = 1;
+                        System.out.println("* Encounter " + i + " / " + enfrentaments);
 
                         break;
                     case 4:
