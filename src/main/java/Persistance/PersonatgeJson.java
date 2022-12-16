@@ -8,10 +8,11 @@ import org.json.JSONObject;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class PersonatgeJson {
-    public static void main(String[] args) {
+    public static ArrayList<Personatge> llegirPersonatges(){
 
         String input = "";
         File a = new File("src/main/java/Fitxers/characters.json");
@@ -43,7 +44,7 @@ public class PersonatgeJson {
                     tmpPersonatgeJSON.getInt("spirit"),
                     tmpPersonatgeJSON.getString("class"));
             personatges.add(b);
-        };
-        System.out.println(personatges.get(10));
+        }
+        return personatges;
     }
 }

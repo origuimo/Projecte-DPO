@@ -21,15 +21,14 @@ public class Personatge {
 
     @Override
     public String toString() {
-        return "Personatge{" +
-                "name='" + name + '\'' +
-                ", player='" + player + '\'' +
-                ", xp=" + xp +
-                ", body=" + body +
-                ", mind=" + mind +
-                ", spirit=" + spirit +
-                ", tipus='" + tipus + '\'' +
-                '}';
+        return "* Name:" + name + "\n" +
+                "* Player:" + player + "\n" +
+                "* Clsaa: " + tipus + "\n" +
+                "* Level: " + "\n" +
+                "* Xp:" + xp + "\n" +
+                "* Body: " + body + "\n" +
+                "* Mind: " + mind + "\n" +
+                "* Spirit: " + spirit + "\n";
     }
 
     public String getName() {

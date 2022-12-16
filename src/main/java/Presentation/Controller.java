@@ -1,7 +1,10 @@
 package Presentation;
 
 import Business.Monstre;
+import Business.Personatge;
 import Persistance.MonstreJson;
+import Persistance.PersonatgeJson;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -15,6 +18,7 @@ public class Controller {
         Scanner scanner = new Scanner(System.in);
         int opcio = 0;
         ArrayList<Monstre> monstres = null;
+        ArrayList<Personatge> personatges = null;
         ArrayList<Integer> nums = null;
         System.out.println("Welcome to simple LSRPG.\n");
         System.out.println("Loading data...");
@@ -26,6 +30,7 @@ public class Controller {
             System.out.print("Error: The monsters.json file can't be accessed.");
             correcte = false;
         }
+        personatges = PersonatgeJson.llegirPersonatges();
         if(correcte){
             do {
                 System.out.println("The tavern keeper looks at you and says:");
@@ -112,9 +117,70 @@ public class Controller {
                         System.out.println("\t- Body: " + numeros.get(0));
                         System.out.println("\t- Mind: " + numeros.get(1));
                         System.out.println("\t- Spirit: " + numeros.get(2));
+                        int Body = numeros.get(0);
+                        int Mind = numeros.get(1);
+                        int Spirit = numeros.get(2);
+
+                        Personatge a = new Personatge(nom, jugador, nivell, Body, Mind, Spirit, "");
+                        personatges.add(a);
+
+                        System.out.println("The new character" + nom + "has been created.\n ");
                         break;
                     case 2:
-
+                        System.out.println("Tavern keeper: " + "\"" + "Lads! they want to see you!\"\n\"" +
+                                "Who piques your interest?\"\n");
+                        System.out.println("-> Enter the name of the Player to filter: ");
+                        String nomJugador = scanner.nextLine();
+                        if(nomJugador.isEmpty()){
+                            System.out.println("You watch all adventurers get up from their chairs and approach you.");
+                        }else{
+                            System.out.println("You watch as some adventurers get up from their chairs and approach you.");
+                        }
+                        int x = 1;
+                        Personatge personatgeAux = null;
+                        for (int i = 0; i < personatges.size(); i++) {
+                            personatgeAux = personatges.get(i);
+                            if(personatgeAux.getPlayer().contains(nomJugador)){
+                                System.out.println(x + ". " + personatgeAux.getName());
+                                x++;
+                            }
+                        }
+                        System.out.println("\n0. Back\n");
+                        x--;
+                        System.out.println("Who would you like to meet? [0.." + x + "]");
+                        int numPersonatge = 0;
+                        ok = true;
+                        try{
+                            numPersonatge = Integer.parseInt(scanner.nextLine());
+                        }catch (Exception e){
+                            System.out.println("\tInvalid format for meet player.");
+                            ok = false;
+                        }
+                        while(numPersonatge > x || numPersonatge < 0 || !ok){
+                            System.out.println("\tPlease enter a valid number: ");
+                            try{
+                                numPersonatge = Integer.parseInt(scanner.nextLine());
+                                ok = true;
+                            }catch (Exception e){
+                                System.out.println("\tInvalid format for meet player.");
+                                ok = false;
+                            }
+                        }
+                        int i = 0;
+                        int j = 0;
+                        while(i != numPersonatge){
+                            personatgeAux = personatges.get(j);
+                            if(personatgeAux.getPlayer().contains(nomJugador)){
+                                i++;
+                                j++;
+                            }else{
+                                j++;
+                            }
+                        }
+                        j--;
+                        personatgeAux = personatges.get(j);
+                        System.out.println("Tavern keeper: \"Hey " + personatgeAux.getName() + "get here; the boss wants to see you!\"\n");
+                        System.out.println(personatgeAux.toString());
                         break;
                     case 3:
 
