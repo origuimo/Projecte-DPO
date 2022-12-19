@@ -198,7 +198,7 @@ public class Controller {
                         boolean existeix;
                         String nomAventura;
                         existeix = false;
-                        System.out.println("Tavern keeper: “Planning an adventure? Good luck with that!”\n");
+                        System.out.println("Tavern keeper: “Planning an adventure? Good luck with that!“");
                         System.out.println("-> Name your adventure: ");
 
                         nomAventura = scanner.nextLine();
@@ -213,8 +213,8 @@ public class Controller {
                             System.out.println("This adventure already exists\n");
                         }else {
 
-                            System.out.println("Tavern keeper: “You plan to undertake" + nomAventura + ", really?”\n" +
-                                    "“How long will that take?”");
+                            System.out.println("Tavern keeper: “You plan to undertake" + nomAventura + ", really?“\n" +
+                                    "“How long will that take?“");
                             System.out.println("-> How many encounters do you want [1..4]: ");
                             int enfrentaments = 0;
                             int sumErrors = 0;
@@ -239,7 +239,7 @@ public class Controller {
                                 }
                             }
                             if (sumErrors < 3){
-                                System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...”");
+                                System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...“");
                                 i = 1;
                                 int opcio2 = 0;
                                 do {
