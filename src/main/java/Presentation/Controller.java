@@ -4,6 +4,7 @@ import Business.Monstre;
 import Business.Personatge;
 import Persistance.MonstreJson;
 import Persistance.PersonatgeJson;
+import Business.Aventura;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class Controller {
         int opcio = 0;
         ArrayList<Monstre> monstres = null;
         ArrayList<Personatge> personatges = null;
+        ArrayList<Aventura> aventures = null;
         ArrayList<Integer> nums = null;
         System.out.println("Welcome to simple LSRPG.\n");
         System.out.println("Loading data...");
@@ -193,33 +195,92 @@ public class Controller {
                         }
                         break;
                     case 3:
+                        boolean existeix;
+                        String nomAventura;
+                        existeix = false;
                         System.out.println("Tavern keeper: “Planning an adventure? Good luck with that!”\n");
                         System.out.println("-> Name your adventure: ");
-                        String nomAdventura = scanner.nextLine();
-                        System.out.println("Tavern keeper: “You plan to undertake" + nomAdventura + ", really?”\n" +
-                                "“How long will that take?”");
-                        System.out.println("-> How many encounters do you want [1..4]: ");
-                        int enfrentaments = 0;
-                        ok = true;
-                        try{
-                            enfrentaments = Integer.parseInt(scanner.nextLine());
-                        }catch (Exception e){
-                            System.out.println("\tInvalid format of encounters");
-                            ok = false;
+
+                        nomAventura = scanner.nextLine();
+                        Aventura c;
+                        for (int k = 0; k < aventures.size(); k++) {
+                            c = aventures.get(k);
+                            if(c.getNom().equals(nomAventura)){
+                                existeix = true;
+                            }
                         }
-                        while(enfrentaments > 4 || enfrentaments < 1 || !ok){
-                            System.out.println("\tPlease enter a valid number: ");
-                            try{
+                        if(existeix) {
+                            System.out.println("This adventure already exists\n");
+                        }else {
+
+                            System.out.println("Tavern keeper: “You plan to undertake" + nomAventura + ", really?”\n" +
+                                    "“How long will that take?”");
+                            System.out.println("-> How many encounters do you want [1..4]: ");
+                            int enfrentaments = 0;
+                            int sumErrors = 0;
+                            ok = true;
+                            try {
                                 enfrentaments = Integer.parseInt(scanner.nextLine());
-                                ok = true;
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 System.out.println("\tInvalid format of encounters");
                                 ok = false;
                             }
+                            sumErrors++;
+                            while ((enfrentaments > 4 || enfrentaments < 1 || !ok) && sumErrors < 3) {
+                                System.out.println("\tPlease enter a valid number: ");
+                                try {
+                                    enfrentaments = Integer.parseInt(scanner.nextLine());
+                                    ok = true;
+                                    sumErrors++;
+                                } catch (Exception e) {
+                                    System.out.println("\tInvalid format of encounters");
+                                    ok = false;
+                                    sumErrors++;
+                                }
+                            }
+                            if (sumErrors < 3){
+                                System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...”");
+                                i = 1;
+                                int opcio2 = 0;
+                                do {
+                                    System.out.println("* Encounter " + i + " / " + enfrentaments);
+                                    System.out.println("* Monsters in encounter");
+
+                                    System.out.println("1. Add monster\n2. Remove monster\n3. Continue\n");
+                                    System.out.println("-> Enter an option [1..3]");
+                                    ok = true;
+                                    try {
+                                        opcio2 = Integer.parseInt(scanner.nextLine());
+                                    } catch (Exception e) {
+                                        System.out.println("\tInvalid format of option");
+                                        ok = false;
+                                    }
+                                    while (opcio2 > 3 || opcio2 < 1 || !ok) {
+                                        System.out.println("\tPlease enter a valid number: ");
+                                        try {
+                                            opcio2 = Integer.parseInt(scanner.nextLine());
+                                            ok = true;
+                                        } catch (Exception e) {
+                                            System.out.println("\tInvalid format of option");
+                                            ok = false;
+                                        }
+                                    }
+                                    switch (opcio2) {
+                                        case 1:
+
+                                            break;
+                                        case 2:
+
+                                            break;
+                                        case 3:
+
+                                            break;
+                                    }
+                                } while (opcio2 != 3 || existeix);
+                            }else {
+                                System.out.println("Too much tries");
+                            }
                         }
-                        System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...”");
-                        i = 1;
-                        System.out.println("* Encounter " + i + " / " + enfrentaments);
 
                         break;
                     case 4:
