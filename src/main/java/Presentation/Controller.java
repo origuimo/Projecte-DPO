@@ -19,8 +19,8 @@ public class Controller {
         Scanner scanner = new Scanner(System.in);
         int opcio = 0;
         ArrayList<Monstre> monstres = null;
-        ArrayList<Personatge> personatges = null;
-        ArrayList<Aventura> aventures = null;
+        ArrayList<Personatge> personatges;
+        ArrayList<Aventura> aventures = new ArrayList<>();
         ArrayList<Integer> nums = null;
         System.out.println("Welcome to simple LSRPG.\n");
         System.out.println("Loading data...");
@@ -168,6 +168,10 @@ public class Controller {
                                 ok = false;
                             }
                         }
+
+                        //CAS 0
+
+
                         int i = 0;
                         int j = 0;
                         while(i != numPersonatge){
@@ -203,17 +207,19 @@ public class Controller {
 
                         nomAventura = scanner.nextLine();
                         Aventura c;
-                        for (int k = 0; k < aventures.size(); k++) {
-                            c = aventures.get(k);
-                            if(c.getNom().equals(nomAventura)){
-                                existeix = true;
+                        if(!aventures.isEmpty()) {
+                            for (int k = 0; k < aventures.size(); k++) {
+                                c = aventures.get(k);
+                                if (c.getNom().equals(nomAventura)) {
+                                    existeix = true;
+                                }
                             }
                         }
                         if(existeix) {
                             System.out.println("This adventure already exists\n");
                         }else {
 
-                            System.out.println("Tavern keeper: “You plan to undertake" + nomAventura + ", really?“\n" +
+                            System.out.println("Tavern keeper: “You plan to undertake " + nomAventura + ", really?“\n" +
                                     "“How long will that take?“");
                             System.out.println("-> How many encounters do you want [1..4]: ");
                             int enfrentaments = 0;
@@ -238,45 +244,134 @@ public class Controller {
                                     sumErrors++;
                                 }
                             }
+                            ArrayList<ArrayList<Monstre>> arrayDeArray = new ArrayList<>();
+                            for (int k = 0; k < enfrentaments; k++) {
+                                ArrayList<Monstre> monstres1 = new ArrayList<>();
+                                arrayDeArray.add(k, monstres1);
+                            }
+
                             if (sumErrors < 3){
                                 System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...“");
-                                i = 1;
+                                i = 0;
+                                j = 1;
                                 int opcio2 = 0;
                                 do {
-                                    System.out.println("* Encounter " + i + " / " + enfrentaments);
-                                    System.out.println("* Monsters in encounter");
+                                    do {
+                                        ArrayList<Monstre> monstres1;
+                                        System.out.println("* Encounter " + j + " / " + enfrentaments);
+                                        System.out.println("* Monsters in encounter");
+                                        monstres1 = arrayDeArray.get(i);
+                                        if (monstres1.isEmpty()) {
+                                            System.out.println("\t#Empty");
+                                        } else {
+                                            for (int k = 0; k < monstres1.size(); k++) {
+                                                Monstre monstresAux = monstres1.get(k);
+                                                System.out.println("\t" + (k + 1) + ". " + monstresAux.getName() + " (X" + monstresAux.getQuantitat() + ")");
+                                            }
+                                        }
 
-                                    System.out.println("1. Add monster\n2. Remove monster\n3. Continue\n");
-                                    System.out.println("-> Enter an option [1..3]");
-                                    ok = true;
-                                    try {
-                                        opcio2 = Integer.parseInt(scanner.nextLine());
-                                    } catch (Exception e) {
-                                        System.out.println("\tInvalid format of option");
-                                        ok = false;
-                                    }
-                                    while (opcio2 > 3 || opcio2 < 1 || !ok) {
-                                        System.out.println("\tPlease enter a valid number: ");
+                                        System.out.println("\n1. Add monster\n2. Remove monster\n3. Continue\n");
+                                        System.out.println("-> Enter an option [1..3]");
+                                        ok = true;
                                         try {
                                             opcio2 = Integer.parseInt(scanner.nextLine());
-                                            ok = true;
                                         } catch (Exception e) {
                                             System.out.println("\tInvalid format of option");
                                             ok = false;
                                         }
-                                    }
-                                    switch (opcio2) {
-                                        case 1:
+                                        while (opcio2 > 3 || opcio2 < 1 || !ok) {
+                                            System.out.println("\tPlease enter a valid number: ");
+                                            try {
+                                                opcio2 = Integer.parseInt(scanner.nextLine());
+                                                ok = true;
+                                            } catch (Exception e) {
+                                                System.out.println("\tInvalid format of option");
+                                                ok = false;
+                                            }
+                                        }
+                                        switch (opcio2) {
+                                            case 1:
+                                                for (int k = 0; k < monstres.size(); k++) {
+                                                    Monstre monstresAux = monstres.get(k);
+                                                    System.out.println((k + 1) + ". " + monstresAux.getName() + " (" + monstresAux.getChallenge() + ")");
+                                                }
+                                                System.out.println("-> Choose a monster to add [1.." + monstres.size() + "]:");
+                                                int numMonstre = 0;
+                                                ok = true;
+                                                try {
+                                                    numMonstre = Integer.parseInt(scanner.nextLine());
+                                                } catch (Exception e) {
+                                                    System.out.println("\tInvalid format for monster.");
+                                                    ok = false;
+                                                }
+                                                while (numMonstre > monstres.size() || numMonstre < 1 || !ok) {
+                                                    System.out.println("\tPlease enter a valid number: ");
+                                                    try {
+                                                        numMonstre = Integer.parseInt(scanner.nextLine());
+                                                        ok = true;
+                                                    } catch (Exception e) {
+                                                        System.out.println("\tInvalid format for monster.");
+                                                        ok = false;
+                                                    }
+                                                }
+                                                numMonstre--;
+                                                Monstre monstresAux = monstres.get(numMonstre);
+                                                System.out.println("-> How much " + monstresAux.getName() + "(s) do you want to add: ");
 
-                                            break;
-                                        case 2:
+                                                int quantitat = 0;
+                                                ok = true;
+                                                try {
+                                                    quantitat = Integer.parseInt(scanner.nextLine());
+                                                } catch (Exception e) {
+                                                    System.out.println("\tInvalid format for monster.");
+                                                    ok = false;
+                                                }
+                                                while (quantitat > monstres.size() || quantitat < 1 || !ok) {
+                                                    System.out.println("\tPlease enter a valid number: ");
+                                                    try {
+                                                        quantitat = Integer.parseInt(scanner.nextLine());
+                                                        ok = true;
+                                                    } catch (Exception e) {
+                                                        System.out.println("\tInvalid format for monster.");
+                                                        ok = false;
+                                                    }
+                                                }
+                                                Monstre b = new Monstre(monstresAux.getName(), quantitat);
+                                                monstres1.add(b);
 
-                                            break;
-                                        case 3:
-
-                                            break;
-                                    }
-                                } while (opcio2 != 3 || existeix);
+                                                break;
+                                            case 2:
+                                                System.out.println("-> Wich monster do you want to delate: ");
+                                                int num_Monstre = 0;
+                                                ok = true;
+                                                try {
+                                                    num_Monstre = Integer.parseInt(scanner.nextLine());
+                                                } catch (Exception e) {
+                                                    System.out.println("\tInvalid format for monster.");
+                                                    ok = false;
+                                                }
+                                                while (num_Monstre > monstres.size() || num_Monstre < 1 || !ok) {
+                                                    System.out.println("\tPlease enter a valid number: ");
+                                                    try {
+                                                        num_Monstre = Integer.parseInt(scanner.nextLine());
+                                                        ok = true;
+                                                    } catch (Exception e) {
+                                                        System.out.println("\tInvalid format for monster.");
+                                                        ok = false;
+                                                    }
+                                                }
+                                                num_Monstre--;
+                                                Monstre monstreAux = monstres1.get(num_Monstre);
+                                                monstres1.remove(num_Monstre);
+                                                System.out.println(monstreAux.getQuantitat() + " " + monstreAux.getName() + "were removed from the encounter.");
+                                                break;
+                                            case 3:
+                                                i++;
+                                                j++;
+                                                break;
+                                        }
+                                    } while (opcio2 != 3);
+                                }while (i < enfrentaments);
                             }else {
                                 System.out.println("Too much tries");
                             }

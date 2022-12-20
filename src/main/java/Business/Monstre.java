@@ -9,6 +9,7 @@ public class Monstre {
     int initiative;
     String damageDice;
     String damageType;
+    int quantitat;
 
     public Monstre(String name, String challenge, int experience, int hitPoints, int initiative, String damageDice, String damageType) {
         this.name = name;
@@ -18,6 +19,12 @@ public class Monstre {
         this.initiative = initiative;
         this.damageDice = damageDice;
         this.damageType = damageType;
+    }
+
+
+    public Monstre(String name, int quantitat) {
+        this.name = name;
+        this.quantitat = quantitat;
     }
 
     @Override
@@ -31,6 +38,9 @@ public class Monstre {
                 ", damageDice='" + damageDice + '\'' +
                 ", damageType='" + damageType + '\'' +
                 '}';
+    }
+    public int getQuantitat() {
+        return quantitat;
     }
 
     public String getName() {
