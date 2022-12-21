@@ -22,6 +22,16 @@ public class Controller {
         ArrayList<Personatge> personatges;
         ArrayList<Aventura> aventures = new ArrayList<>();
         ArrayList<Integer> nums = null;
+        ArrayList<ArrayList<Monstre>> arrayDeArray = new ArrayList<>();
+        int enfrentaments = 0;
+
+        System.out.println("\n" +
+                "   _____ _                 __        __   _____ ____  ______\n" +
+                "  / ___/(_)___ ___  ____  / /__     / /  / ___// __ \\/ ____/\n" +
+                "  \\__ \\/ / __ `__ \\/ __ \\/ / _ \\   / /   \\__ \\/ /_/ / / __  \n" +
+                " ___/ / / / / / / / /_/ / /  __/  / /______/ / _, _/ /_/ /  \n" +
+                "/____/_/_/ /_/ /_/ .___/_/\\___/  /_____/____/_/ |_|\\____/   \n" +
+                "                /_/                                         \n");
         System.out.println("Welcome to simple LSRPG.\n");
         System.out.println("Loading data...");
 
@@ -75,7 +85,7 @@ public class Controller {
                                 ok = false;
                             }
                         }
-                        System.out.println("Taverner keeper: " + "\"" + "Oh, so you are level" + nivell + "!\"\n\"" +
+                        System.out.println("Taverner keeper: " + "\"" + "Oh, so you are level " + nivell + "!\"\n\"" +
                                 "Great, let me get a closer look at you..." + "\"\n");
                         System.out.println("Generating your stats...\n");
                         ArrayList<Integer> numeros = new ArrayList<>();
@@ -224,7 +234,6 @@ public class Controller {
                             System.out.println("Tavern keeper: “You plan to undertake " + nomAventura + ", really?“\n" +
                                     "“How long will that take?“");
                             System.out.println("-> How many encounters do you want [1..4]: ");
-                            int enfrentaments = 0;
                             int sumErrors = 0;
                             ok = true;
                             try {
@@ -248,7 +257,7 @@ public class Controller {
                             }
                             Aventura z = new Aventura(nomAventura, enfrentaments);
                             aventures.add(z);
-                            ArrayList<ArrayList<Monstre>> arrayDeArray = new ArrayList<>();
+
                             for (int k = 0; k < enfrentaments; k++) {
                                 ArrayList<Monstre> monstres1 = new ArrayList<>();
                                 arrayDeArray.add(k, monstres1);
@@ -376,6 +385,8 @@ public class Controller {
                                         }
                                     } while (opcio2 != 3);
                                 }while (i < enfrentaments);
+                                System.out.println("Tavern keeper: “Great plan lad! I hope you won’t die!“");
+                                System.out.println("The new adventure " + nomAventura + " has been created.\n");
                             }else {
                                 System.out.println("Too much tries");
                             }
@@ -499,6 +510,21 @@ public class Controller {
                         System.out.println("Tavern keeper: “Great, good luck on your adventure lads!“");
                         System.out.println("The “" + nomAcenturaAux.getNom()  + "“ will start soon...\n");
 
+                        for (int i = 0; i < enfrentaments; i++) {
+                            System.out.println("---------------------");
+                            System.out.println("Starting Encounter " + (i + 1) + ":");
+                            ArrayList<Monstre> monstres1;
+                            monstres1 = arrayDeArray.get(i);
+                            for (int j = 0; j < monstres1.size(); j++) {
+                                Monstre monstreAux = monstres1.get(j);
+                                System.out.println("- " + monstreAux.getQuantitat() + "x " + monstreAux.getName());
+                            }
+                            System.out.println("---------------------\n\n");
+                            System.out.println("-------------------------\n" +
+                                    "*** Preparation stage ***\n" +
+                                    "-------------------------\n");
+
+                        }
 
                         break;
                     case 5:

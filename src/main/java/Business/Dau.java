@@ -14,4 +14,9 @@ public class Dau {
 
         return nums;
     }
+    public static Integer daus12cares() {
+        int numero = (int) (Math.random() * 12 + 1);
+
+        return numero;
+    }
 }

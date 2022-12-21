@@ -23,7 +23,7 @@ public class Personatge {
     public String toString() {
         return "* Name:" + name + "\n" +
                 "* Player:" + player + "\n" +
-                "* Clsaa: " + tipus + "\n" +
+                "* Class: " + tipus + "\n" +
                 "* Level: " + "\n" +
                 "* Xp:" + xp + "\n" +
                 "* Body: " + body + "\n" +
