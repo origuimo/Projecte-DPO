@@ -170,32 +170,34 @@ public class Controller {
                         }
 
                         //CAS 0
+                        if(numPersonatge == 0){
 
-
-                        int i = 0;
-                        int j = 0;
-                        while(i != numPersonatge){
-                            personatgeAux = personatges.get(j);
-                            if(personatgeAux.getPlayer().contains(nomJugador)){
-                                i++;
-                                j++;
-                            }else{
-                                j++;
+                        }else {
+                            int i = 0;
+                            int j = 0;
+                            while (i != numPersonatge) {
+                                personatgeAux = personatges.get(j);
+                                if (personatgeAux.getPlayer().contains(nomJugador)) {
+                                    i++;
+                                    j++;
+                                } else {
+                                    j++;
+                                }
                             }
-                        }
-                        j--;
-                        personatgeAux = personatges.get(j);
-                        System.out.println("Tavern keeper: \"Hey " + personatgeAux.getName() + " get here; the boss wants to see you!\"\n");
-                        System.out.println(personatgeAux.toString());
-                        System.out.println("[Enter name to delete, or press enter to cancel]");
-                        System.out.println("Do you want to delete " + personatgeAux.getName()+ "?");
-                        String nomEliminar = scanner.nextLine();
-                        if(nomEliminar.isEmpty()){
+                            j--;
+                            personatgeAux = personatges.get(j);
+                            System.out.println("Tavern keeper: \"Hey " + personatgeAux.getName() + " get here; the boss wants to see you!\"\n");
+                            System.out.println(personatgeAux.toString());
+                            System.out.println("[Enter name to delete, or press enter to cancel]");
+                            System.out.println("Do you want to delete " + personatgeAux.getName() + "?");
+                            String nomEliminar = scanner.nextLine();
+                            if (nomEliminar.isEmpty()) {
 
-                        }else if(nomEliminar.equals(personatgeAux.getName())){
-                            System.out.println("\nTavern keeper: \"I'm sorry kiddo, but you have to leave.\"\n");
-                            System.out.println("Character " + personatgeAux.getName() + " left the Guild");
-                            personatges.remove(j);
+                            } else if (nomEliminar.equals(personatgeAux.getName())) {
+                                System.out.println("\nTavern keeper: \"I'm sorry kiddo, but you have to leave.\"\n");
+                                System.out.println("Character " + personatgeAux.getName() + " left the Guild");
+                                personatges.remove(j);
+                            }
                         }
                         break;
                     case 3:
@@ -244,6 +246,8 @@ public class Controller {
                                     sumErrors++;
                                 }
                             }
+                            Aventura z = new Aventura(nomAventura, enfrentaments);
+                            aventures.add(z);
                             ArrayList<ArrayList<Monstre>> arrayDeArray = new ArrayList<>();
                             for (int k = 0; k < enfrentaments; k++) {
                                 ArrayList<Monstre> monstres1 = new ArrayList<>();
@@ -252,8 +256,8 @@ public class Controller {
 
                             if (sumErrors < 3){
                                 System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...“");
-                                i = 0;
-                                j = 1;
+                                int i = 0;
+                                int j = 1;
                                 int opcio2 = 0;
                                 do {
                                     do {
@@ -379,6 +383,122 @@ public class Controller {
 
                         break;
                     case 4:
+                        System.out.println("Tavern keeper: “So, you are looking to go on an adventure?“\n" +
+                                "“Where do you fancy going?“");
+                        System.out.println("Available adventures:");
+                        if(personatges.size() < 3){
+                            System.out.println("Falten personatges, minim 3.");
+                        }else {
+                            for (int k = 0; k < aventures.size(); k++) {
+                                Aventura z = aventures.get(k);
+                                System.out.println((k + 1) + ". " + z.getNom());
+                            }
+                        }
+                        System.out.println("-> Choose an adventure: ");
+                        int numAventura = 0;
+                        ok = true;
+                        try {
+                            numAventura = Integer.parseInt(scanner.nextLine());
+                        } catch (Exception e) {
+                            System.out.println("\tInvalid format for adventure.");
+                            ok = false;
+                        }
+                        while (numAventura > aventures.size() || numAventura < 1 || !ok) {
+                            System.out.println("\tPlease enter a valid number: ");
+                            try {
+                                numAventura = Integer.parseInt(scanner.nextLine());
+                                ok = true;
+                            } catch (Exception e) {
+                                System.out.println("\tInvalid format for adventure.");
+                                ok = false;
+                            }
+                        }
+                        numAventura--;
+                        Aventura nomAcenturaAux = aventures.get(numAventura);
+                        System.out.println("Tavern keeper: “" + nomAcenturaAux.getNom() + "it is!“\n" +
+                                "“And how many people shall join you?“");
+                        System.out.println("-> Choose a number of characters [3..5]: ");
+                        int numCharacters = 0;
+                        ok = true;
+                        try {
+                            numCharacters = Integer.parseInt(scanner.nextLine());
+                        } catch (Exception e) {
+                            System.out.println("\tInvalid format for adventure.");
+                            ok = false;
+                        }
+                        while (numCharacters > 5 || numCharacters < 3 || !ok) {
+                            System.out.println("\tPlease enter a valid number: ");
+                            try {
+                                numCharacters = Integer.parseInt(scanner.nextLine());
+                                ok = true;
+                            } catch (Exception e) {
+                                System.out.println("\tInvalid format for adventure.");
+                                ok = false;
+                            }
+                        }
+                        System.out.println("Tavern keeper: “Great," + numCharacters + " it is.“\n" +
+                                "“Who among these lads shall join you?“");
+                        ArrayList<String> nousCharacters = new ArrayList<>();
+
+                        //Inicialitzar tot a " " el array nousCharacters
+                        /*for (int i = 0; i < numCharacters; i++) {
+                            nousCharacters.add(" ");
+                        }*/
+
+                        for (int i = 0; i < numCharacters; i++) {
+                            System.out.println("------------------------------");
+                            System.out.println("Your party (" + i + "/ " + numCharacters + "):");
+                            for (int j = 0; j < numCharacters; j++) {
+                                if (nousCharacters.size() < (j + 1)) {
+                                    System.out.println((j + 1) + ". Empty");
+                                } else {
+                                    String charactersAux = nousCharacters.get(j);
+                                    System.out.println((j + 1) + ". " + charactersAux);
+                                }
+                            }
+                            System.out.println("------------------------------");
+                            System.out.println("Available characters:");
+                            for (int j = 0; j < personatges.size(); j++) {
+                                Personatge pAux = personatges.get(j);
+                                System.out.println((j + 1) + ". " + pAux.getName());
+                            }
+                            System.out.println("-> Choose character " + (i + 1) + " in your party:");
+                            int triaCharacter = 0;
+                            ok = true;
+                            try {
+                                triaCharacter = Integer.parseInt(scanner.nextLine());
+                            } catch (Exception e) {
+                                System.out.println("\tInvalid format for adventure.");
+                                ok = false;
+                            }
+                            while (triaCharacter > personatges.size() || triaCharacter < 1 || !ok) {
+                                System.out.println("\tPlease enter a valid number: ");
+                                try {
+                                    triaCharacter = Integer.parseInt(scanner.nextLine());
+                                    ok = true;
+                                } catch (Exception e) {
+                                    System.out.println("\tInvalid format for adventure.");
+                                    ok = false;
+                                }
+                            }
+                            triaCharacter--;
+                            Personatge pAux = personatges.get(triaCharacter);
+                            nousCharacters.add(pAux.getName());
+                        }
+                        System.out.println("------------------------------");
+                        System.out.println("Your party (" + numCharacters + "/ " + numCharacters + "):");
+                        for (int j = 0; j < numCharacters; j++) {
+                            if (nousCharacters.size() < (j + 1)) {
+                                System.out.println((j + 1) + ". Empty");
+                            } else {
+                                String charactersAux = nousCharacters.get(j);
+                                System.out.println((j + 1) + ". " + charactersAux);
+                            }
+                        }
+                        System.out.println("------------------------------\n");
+                        System.out.println("Tavern keeper: “Great, good luck on your adventure lads!“");
+                        System.out.println("The “" + nomAcenturaAux.getNom()  + "“ will start soon...\n");
+
 
                         break;
                     case 5:
