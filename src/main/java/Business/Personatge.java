@@ -8,6 +8,7 @@ public class Personatge {
     int mind;
     int spirit;
     String tipus;
+    int hitPoints;
 
     public Personatge(String name, String player, int xp, int body, int mind, int spirit, String tipus) {
         this.name = name;
@@ -17,6 +18,18 @@ public class Personatge {
         this.mind = mind;
         this.spirit = spirit;
         this.tipus = tipus;
+    }
+
+    public Personatge(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
     }
 
     @Override

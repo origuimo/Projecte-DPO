@@ -5,10 +5,12 @@ public class Combat {
 
     int iniciativa;
     String nom;
+    String tipus;
 
-    public Combat(int iniciativa, String nom) {
+    public Combat(int iniciativa, String nom, String tipus) {
         this.iniciativa = iniciativa;
         this.nom = nom;
+        this.tipus = tipus;
     }
     public int getIniciativa() {
         return iniciativa;
@@ -26,5 +28,11 @@ public class Combat {
         this.nom = nom;
     }
 
+    public String getTipus() {
+        return tipus;
+    }
 
+    public void setTipus(String tipus) {
+        this.tipus = tipus;
+    }
 }
