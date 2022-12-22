@@ -1,16 +1,19 @@
 package Presentation;
 
+import Business.Combat;
 import Business.Monstre;
 import Business.Personatge;
 import Persistance.MonstreJson;
 import Persistance.PersonatgeJson;
 import Business.Aventura;
+import Business.Combat;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.lang.reflect.Array;
+import java.util.*;
 
 import static Business.Dau.daus6cares;
+import static Business.Dau.daus12cares;
 
 
 public class Controller {
@@ -24,6 +27,8 @@ public class Controller {
         ArrayList<Integer> nums = null;
         ArrayList<ArrayList<Monstre>> arrayDeArray = new ArrayList<>();
         int enfrentaments = 0;
+
+
 
         System.out.println("\n" +
                 "   _____ _                 __        __   _____ ____  ______\n" +
@@ -351,7 +356,6 @@ public class Controller {
                                                 }
                                                 Monstre b = new Monstre(monstresAux.getName(), quantitat);
                                                 monstres1.add(b);
-
                                                 break;
                                             case 2:
                                                 System.out.println("-> Wich monster do you want to delate: ");
@@ -426,7 +430,7 @@ public class Controller {
                         }
                         numAventura--;
                         Aventura nomAcenturaAux = aventures.get(numAventura);
-                        System.out.println("Tavern keeper: “" + nomAcenturaAux.getNom() + "it is!“\n" +
+                        System.out.println("Tavern keeper: “" + nomAcenturaAux.getNom() + " it is!“\n" +
                                 "“And how many people shall join you?“");
                         System.out.println("-> Choose a number of characters [3..5]: ");
                         int numCharacters = 0;
@@ -449,7 +453,7 @@ public class Controller {
                         }
                         System.out.println("Tavern keeper: “Great," + numCharacters + " it is.“\n" +
                                 "“Who among these lads shall join you?“");
-                        ArrayList<String> nousCharacters = new ArrayList<>();
+                        ArrayList<Personatge> nousCharacters = new ArrayList<>();
 
                         //Inicialitzar tot a " " el array nousCharacters
                         /*for (int i = 0; i < numCharacters; i++) {
@@ -463,8 +467,8 @@ public class Controller {
                                 if (nousCharacters.size() < (j + 1)) {
                                     System.out.println((j + 1) + ". Empty");
                                 } else {
-                                    String charactersAux = nousCharacters.get(j);
-                                    System.out.println((j + 1) + ". " + charactersAux);
+                                    Personatge charactersAux = nousCharacters.get(j);
+                                    System.out.println((j + 1) + ". " + charactersAux.getName());
                                 }
                             }
                             System.out.println("------------------------------");
@@ -494,7 +498,7 @@ public class Controller {
                             }
                             triaCharacter--;
                             Personatge pAux = personatges.get(triaCharacter);
-                            nousCharacters.add(pAux.getName());
+                            nousCharacters.add(pAux);
                         }
                         System.out.println("------------------------------");
                         System.out.println("Your party (" + numCharacters + "/ " + numCharacters + "):");
@@ -502,8 +506,8 @@ public class Controller {
                             if (nousCharacters.size() < (j + 1)) {
                                 System.out.println((j + 1) + ". Empty");
                             } else {
-                                String charactersAux = nousCharacters.get(j);
-                                System.out.println((j + 1) + ". " + charactersAux);
+                                Personatge charactersAux = nousCharacters.get(j);
+                                System.out.println((j + 1) + ". " + charactersAux.getName());
                             }
                         }
                         System.out.println("------------------------------\n");
@@ -522,8 +526,43 @@ public class Controller {
                             System.out.println("---------------------\n\n");
                             System.out.println("-------------------------\n" +
                                     "*** Preparation stage ***\n" +
-                                    "-------------------------\n");
+                                    "-------------------------");
+                            for (int j = 0; j < nousCharacters.size(); j++) {
+                                Personatge personatge = nousCharacters.get(j);
+                                if(personatge.getTipus().equals("Adventurer")){
+                                    System.out.println(personatge.getName() + " uses Self-Motivated. Their Spirit increases in +1.\n");
+                                    personatge.setSpirit(personatge.getSpirit() + 1);
+                                }
+                            }
+                            ArrayList<Monstre> monstresAventura = arrayDeArray.get(i);
+                            int iniciativa;
+                            ArrayList<Combat> ordre = new ArrayList<>();
+                            for (int j = 0; j < monstresAventura.size(); j++) {
+                                Monstre b = monstresAventura.get(j);
+                                for (int k = 0; k < b.getQuantitat(); k++) {
+                                    int num = daus12cares();
+                                    iniciativa = num + b.getInitiative();
+                                    Combat aux = new Combat(iniciativa, b.getName());
+                                    ordre.add(aux);
+                                }
+                            }
+                            for (int j = 0; j < nousCharacters.size(); j++) {
+                                int num = daus12cares();
+                                Personatge personatge = nousCharacters.get(j);
+                                if(personatge.getTipus().equals("Adventurer")){
+                                    iniciativa = num + personatge.getSpirit();
+                                    Combat aux = new Combat(iniciativa, personatge.getName());
+                                    ordre.add(aux);
+                                }
+                            }
+                            System.out.println("Rolling initiative...");
+                            Collections.sort(ordre, Comparator.comparingInt(Combat::getIniciativa));
+                            Collections.reverse(ordre);
 
+                            for (int j = 0; j < ordre.size(); j++) {
+                                Combat ordreAux = ordre.get(j);
+                                System.out.println("- " + ordreAux.getIniciativa() + "\t" + ordreAux.getNom());
+                            }
                         }
 
                         break;

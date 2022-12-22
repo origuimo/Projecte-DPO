@@ -47,6 +47,14 @@ public class Monstre {
         return name;
     }
 
+    public int getInitiative() {
+        return initiative;
+    }
+
+    public void setInitiative(int initiative) {
+        this.initiative = initiative;
+    }
+
     public String getChallenge() {
         return challenge;
     }
