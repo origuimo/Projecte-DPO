@@ -566,7 +566,7 @@ public class Controller {
                                     "*** Combat stage ***\n" +
                                     "--------------------");
                             int z = 1;
-                            //while(!monstresAventura.isEmpty()){
+                            while(!monstresAventura.isEmpty()){
                                 System.out.println("Round " + z);
                                 System.out.println("Party: ");
                                 for (int j = 0; j < nousCharacters.size(); j++) {
@@ -598,12 +598,21 @@ public class Controller {
                                                 }
                                             }
                                         }else{
-
+                                            for (int j = 0; j < nousCharacters.size(); j++) {
+                                                Personatge personatge = nousCharacters.get(j);
+                                                if(combat.getNom().equals(personatge.getName())){
+                                                    int dau = dau6cares();
+                                                    int dmg = dau + personatge.getBody();
+                                                    int monstreAAtacar = daumonstre(monstresAventura.size());
+                                                        Monstre monstre = monstresAventura.get(monstreAAtacar);
+                                                        monstre.setHitPoints(monstre.getHitPoints() - dmg);
+                                                }
+                                            }
                                         }
                                     }
 
-                                //}
-                                //z++;
+                                }
+                                z++;
                             }
 
                         }

@@ -51,6 +51,34 @@ public class Monstre {
         return initiative;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setChallenge(String challenge) {
+        this.challenge = challenge;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public void setHitPoints(int hitPoints) {
+        this.hitPoints = hitPoints;
+    }
+
+    public void setDamageDice(String damageDice) {
+        this.damageDice = damageDice;
+    }
+
+    public void setDamageType(String damageType) {
+        this.damageType = damageType;
+    }
+
+    public void setQuantitat(int quantitat) {
+        this.quantitat = quantitat;
+    }
+
     public void setInitiative(int initiative) {
         this.initiative = initiative;
     }

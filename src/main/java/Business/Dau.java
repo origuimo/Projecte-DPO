@@ -19,6 +19,11 @@ public class Dau {
 
         return numero;
     }
+    public static Integer dau6cares() {
+        int numero = (int) (Math.random() * 6 + 1);
+
+        return numero;
+    }
     public static Integer daus10cares() {
         int numero = (int) (Math.random() * 10 + 1);
 
