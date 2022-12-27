@@ -9,6 +9,7 @@ public class Personatge {
     int spirit;
     String tipus;
     int hitPoints;
+    int maxPoints;
 
     public Personatge(String name, String player, int xp, int body, int mind, int spirit, String tipus) {
         this.name = name;
@@ -20,8 +21,17 @@ public class Personatge {
         this.tipus = tipus;
     }
 
-    public Personatge(int hitPoints) {
+    public int getMaxPoints() {
+        return maxPoints;
+    }
+
+    public void setMaxPoints(int maxPoints) {
+        this.maxPoints = maxPoints;
+    }
+
+    public Personatge(int hitPoints, int maxPoints) {
         this.hitPoints = hitPoints;
+        this.maxPoints = maxPoints;
     }
 
     public int getHitPoints() {

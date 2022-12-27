@@ -30,7 +30,7 @@ public class Dau {
         return numero;
     }
     public static Integer daumonstre(int dau) {
-        int numero = (int) (Math.random() * dau + 1);
+        int numero = (int) (Math.random() * dau);
 
         return numero;
     }

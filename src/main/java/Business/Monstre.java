@@ -22,6 +22,10 @@ public class Monstre {
     }
 
 
+    public Monstre(String name) {
+        this.name = name;
+    }
+
     public Monstre(String name, int quantitat) {
         this.name = name;
         this.quantitat = quantitat;
