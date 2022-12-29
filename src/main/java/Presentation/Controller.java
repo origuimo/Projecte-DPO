@@ -5,6 +5,7 @@ import Business.Monstre;
 import Business.Personatge;
 import Persistance.MonstreJson;
 import Persistance.PersonatgeJson;
+import Persistance.AventuraJson;
 import Business.Aventura;
 import Business.Combat;
 
@@ -13,6 +14,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 import static Business.Dau.*;
+import static Persistance.AventuraJson.escriureAventura;
 
 
 public class Controller {
@@ -394,7 +396,7 @@ public class Controller {
                                 System.out.println("Too much tries");
                             }
                         }
-
+                        escriureAventura();
                         break;
                     case 4:
                         System.out.println("Tavern keeper: “So, you are looking to go on an adventure?“\n" +
