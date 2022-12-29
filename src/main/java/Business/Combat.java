@@ -7,11 +7,13 @@ public class Combat {
     String nom;
     String tipus;
     int HitPoints;
-    public Combat(int iniciativa, String nom, String tipus, int HitPoints) {
+    int xp;
+    public Combat(int iniciativa, String nom, String tipus, int HitPoints, int xp) {
         this.iniciativa = iniciativa;
         this.nom = nom;
         this.tipus = tipus;
         this.HitPoints = HitPoints;
+        this.xp = xp;
     }
     public int getIniciativa() {
         return iniciativa;
@@ -23,6 +25,14 @@ public class Combat {
 
     public String getNom() {
         return nom;
+    }
+
+    public int getXp() {
+        return xp;
+    }
+
+    public void setXp(int xp) {
+        this.xp = xp;
     }
 
     public int getHitPoints() {

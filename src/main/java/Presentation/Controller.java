@@ -549,13 +549,14 @@ public class Controller {
                                     Monstre general = monstres.get(k);
                                     if(b.getName().equals(general.getName())){
                                         b.setHitPoints(general.getHitPoints());
+                                        b.setExperience(general.getExperience());
                                     }
                                 }
 
                                 for (int k = 0; k < b.getQuantitat(); k++) {
                                     int num = daus12cares();
                                     iniciativa = num + b.getInitiative();
-                                    Combat aux = new Combat(iniciativa, b.getName(), "Monster", b.getHitPoints());
+                                    Combat aux = new Combat(iniciativa, b.getName(), "Monster", b.getHitPoints(), b.getExperience());
                                     ordre.add(aux);
                                 }
                             }
@@ -570,7 +571,7 @@ public class Controller {
                                 int num = daus12cares();
                                 if(personatge.getTipus().equals("Adventurer")){
                                     iniciativa = num + personatge.getSpirit();
-                                    Combat aux = new Combat(iniciativa, personatge.getName(), "persona", personatge.getHitPoints());
+                                    Combat aux = new Combat(iniciativa, personatge.getName(), "persona", personatge.getHitPoints(), personatge.getXp());
                                     ordre.add(aux);
                                 }
                             }
@@ -588,6 +589,8 @@ public class Controller {
 
                                 int z = 1;
                                 int nMonstres = ordre.size() - nousCharacters.size();
+                                int sumHitPoints = 0;
+                                int xp = 0;
                                 do{
                                 System.out.println("Round " + z);
                                 System.out.println("Party: ");
@@ -610,17 +613,30 @@ public class Controller {
                                                 Monstre monstre = monstres.get(l);
                                                 if(combat.getNom().equals(monstre.getName())){
                                                     int dmg = daumonstre(Integer.parseInt(monstre.getDamageDice().substring(1)));
-                                                    int jugadorAAtacar = daumonstre(nousCharacters.size());
-                                                    Personatge personatge1 = nousCharacters.get(jugadorAAtacar);
-                                                    personatge1.setHitPoints(personatge1.getHitPoints() - dmg);
-                                                    System.out.println(monstre.getName() + " attacks " + personatge1.getName() + ".\n"
+                                                    int jugadorAAtacar;
+                                                    boolean entrat = false;
+                                                    do {
+                                                        jugadorAAtacar = daumonstre(ordre.size());
+                                                        Combat player = ordre.get(jugadorAAtacar);
+                                                        if(player.getTipus().equals("persona") && player.getHitPoints() > 0) {
+                                                            player.setHitPoints(player.getHitPoints() - dmg);
+                                                            entrat = true;
+                                                        }
+                                                    }while (!entrat);
+
+                                                    Combat player = ordre.get(jugadorAAtacar);
+                                                    System.out.println(monstre.getName() + " attacks " + player.getNom() + ".\n"
                                                     + "Hits and deals " + dmg + " physical damage.\n");
+                                                    if(player.getHitPoints() <= 0){
+                                                        System.out.println(player.getNom() + " inconcient.");
+                                                        player.setHitPoints(0);
+                                                    }
                                                 }
                                             }
                                         }else if (combat.getTipus().equals("persona")){
                                             for (int j = 0; j < nousCharacters.size(); j++) {
                                                 Personatge personatge = nousCharacters.get(j);
-                                                if(combat.getNom().equals(personatge.getName())){
+                                                if(combat.getNom().equals(personatge.getName()) && combat.getHitPoints() > 0){
                                                     int dau = dau6cares();
                                                     int dmg = dau + personatge.getBody();
                                                     boolean entrat = false;
@@ -642,15 +658,56 @@ public class Controller {
                                                         System.out.println(monstre.getNom() + " dies.");
                                                         ordre.remove(monstreAAtacar);
                                                         nMonstres = ordre.size() - nousCharacters.size();
+                                                        xp += monstre.getXp();
                                                     }
                                                 }
                                             }
                                         }
                                     //}
+                                }
+                                System.out.println("End of round " + z);
+                                z++;
+
+                                for (int j = 0; j < ordre.size(); j++) {
+                                    Combat personatge = ordre.get(j);
+                                    if(personatge.getTipus().equals("persona")){
+                                        sumHitPoints += personatge.getHitPoints();
+                                    }
+                                }
+                            }while(nMonstres > 0 && sumHitPoints > 0);
+                            System.out.println("All enemies are defeated.");
+
+                            if(sumHitPoints > 0) {
+                                System.out.println("------------------------\n" +
+                                        "*** Short rest stage ***\n" +
+                                        "------------------------\n");
+                                for (int j = 0; j < nousCharacters.size(); j++) {
+                                    Personatge aux = nousCharacters.get(j);
+                                    aux.setXp(aux.getXp() + xp);
+                                    System.out.println(aux.getName() + " gains " + xp + " xp.");
 
                                 }
-                                z++;
-                            }while(nMonstres > 0);
+                                for (int j = 0; j < ordre.size(); j++) {
+                                    Combat aux = ordre.get(j);
+                                    for (int k = 0; k < nousCharacters.size(); k++) {
+                                        Personatge personatge = nousCharacters.get(k);
+                                        if(aux.getNom().equals(personatge.getName())){
+                                            if(aux.getHitPoints() > 0){
+                                                int dau = dau8cares();
+                                                int cura = dau + personatge.getMind();
+                                                if((aux.getHitPoints() + cura) > personatge.getMaxPoints()){
+                                                    aux.setHitPoints(personatge.getMaxPoints());
+                                                }else{
+                                                    aux.setHitPoints(aux.getHitPoints() + cura);
+                                                }
+                                                System.out.println(aux.getNom() + " uses Bandage time. Heals " + cura + " hit points");
+                                            }else{
+                                                System.out.println(aux.getNom() + " is unconscious.");
+                                            }
+                                        }
+                                    }
+                                }
+                            }
                         }
                         break;
                     case 5:
