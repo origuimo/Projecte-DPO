@@ -8,6 +8,8 @@ import Persistance.PersonatgeJson;
 import Persistance.AventuraJson;
 import Business.Aventura;
 import Business.Combat;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -236,6 +238,9 @@ public class Controller {
                         if(existeix) {
                             System.out.println("This adventure already exists\n");
                         }else {
+                            JSONObject Aventura= new JSONObject();
+
+                            Aventura.put("Nom", nomAventura);
 
                             System.out.println("Tavern keeper: “You plan to undertake " + nomAventura + ", really?“\n" +
                                     "“How long will that take?“");
@@ -270,6 +275,9 @@ public class Controller {
                             }
 
                             if (sumErrors < 3){
+
+                                Aventura.put("Enfrentaments", enfrentaments);
+
                                 System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...“");
                                 int i = 0;
                                 int j = 1;
@@ -356,6 +364,10 @@ public class Controller {
                                                     }
                                                 }
                                                 Monstre b = new Monstre(monstresAux.getName(), quantitat);
+                                                JSONObject monstresAv = new JSONObject();
+                                                monstresAv.put("Nom", monstresAux.getName());
+                                                monstresAv.put("Quantitat", quantitat);
+                                                Aventura.put("Monstre", monstresAv);
                                                 monstres1.add(b);
                                                 break;
                                             case 2:
@@ -392,11 +404,11 @@ public class Controller {
                                 }while (i < enfrentaments);
                                 System.out.println("Tavern keeper: “Great plan lad! I hope you won’t die!“");
                                 System.out.println("The new adventure " + nomAventura + " has been created.\n");
+                                escriureAventura(Aventura);
                             }else {
                                 System.out.println("Too much tries");
                             }
                         }
-                        escriureAventura();
                         break;
                     case 4:
                         System.out.println("Tavern keeper: “So, you are looking to go on an adventure?“\n" +
