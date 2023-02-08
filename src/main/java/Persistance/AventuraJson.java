@@ -9,8 +9,8 @@ public class AventuraJson {
 
     public static void escriureAventura(JSONObject aventura) {
 
-        try (FileWriter writer = new FileWriter("aventura.json")) {
-            writer.write(aventura.toString());
+        try (FileWriter writer = new FileWriter("src/main/java/Fitxers/aventura.json")) {
+            writer.append(aventura.toString());
         } catch (IOException e) {
             e.printStackTrace();
         }
