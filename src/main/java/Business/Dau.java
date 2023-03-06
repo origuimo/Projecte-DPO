@@ -39,4 +39,14 @@ public class Dau {
 
         return numero;
     }
+    public static Integer dau20cares() {
+        int numero = (int) (Math.random() * 20 + 1);
+
+        return numero;
+    }
+    public static Integer dau4cares() {
+        int numero = (int) (Math.random() * 4 + 1);
+
+        return numero;
+    }
 }
