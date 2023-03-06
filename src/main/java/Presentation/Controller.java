@@ -724,9 +724,30 @@ public class Controller {
                                     "-------------------------");
                             for (int j = 0; j < nousCharacters.size(); j++) {
                                 Personatge personatge = nousCharacters.get(j);
-                                if (personatge.getTipus().equals("Adventurer")) {
+                                if (personatge.getTipus().equals("Adventurer") || personatge.getTipus().equals("Guerrer")) {
                                     System.out.println(personatge.getName() + " uses Self-Motivated. Their Spirit increases in +1.\n");
                                     personatge.setSpirit(personatge.getSpirit() + 1);
+                                }else if(personatge.getTipus().equals("Campio")){
+                                    System.out.println(personatge.getName() + "uses Motivational speech. Everyone’s Spirit increases in +1.\n");
+                                    for (int k = 0; k < nousCharacters.size(); k++) {
+                                        Personatge aux = nousCharacters.get(k);
+                                        aux.setSpirit(aux.getSpirit() + 1);
+                                    }
+                                }else if(personatge.getTipus().equals("Clergue")){
+                                    System.out.println(personatge.getName() + " uses Prayer of good luck. Everyone’s Mind increases in +1.\n");
+                                    for (int k = 0; k < nousCharacters.size(); k++) {
+                                        Personatge aux = nousCharacters.get(k);
+                                        aux.setMind(aux.getMind() + 1);
+                                    }
+                                }else if(personatge.getTipus().equals("Paladi")){
+                                    int num = dau3cares();
+                                    System.out.println(personatge.getName() + " uses Blessing of good luck. Everyone’s Mind increases in " + num + ".\n");
+                                    for (int k = 0; k < nousCharacters.size(); k++) {
+                                        Personatge aux = nousCharacters.get(k);
+                                        aux.setMind(aux.getMind() + num);
+                                    }
+                                }else if(personatge.getTipus().equals("Mag")){
+
                                 }
                             }
                             ArrayList<Monstre> monstresAventura = arrayDeArray.get(i);
@@ -883,30 +904,41 @@ public class Controller {
                                             if (combat.getNom().equals(personatge.getName()) && combat.getHitPoints() > 0) {
                                                 int dmg = 0, curacio = 0;
                                                 boolean entrat = false;
-                                                int monstreAAtacar;
+                                                int monstreAAtacar = 0;
 
                                                 curacio = curacioC(personatge, ordre, nousCharacters);
 
                                                 if (curacio != 0) {
 
                                                 }else {
-                                                    dmg = dmgClasse(personatge, ordre);
-                                                    do {
-                                                        monstreAAtacar = daumonstre(ordre.size());
-                                                        Combat monstre = ordre.get(monstreAAtacar);
-                                                        if (monstre.getTipus().equals("Monster")) {
-                                                            if (monstre.getTipus().equals("Boss")) {
-                                                                if (monstre.getMal().equals(combat.getMal())) {
-
+                                                    dmg = dmgClasse(personatge, ordre) * mult;
+                                                    if(personatge.getTipus().equals("Guerrer") || personatge.getTipus().equals("Campio")){
+                                                        int vidamin = 10000;
+                                                        for (int l = 0; l < ordre.size(); l++) {
+                                                            Combat monstre = ordre.get(l);
+                                                            if(monstre.getTipus().equals("Monster")){
+                                                                if(monstre.getHitPoints() < vidamin){
+                                                                    vidamin = monstre.getHitPoints();
+                                                                    monstreAAtacar = l;
                                                                 }
-                                                            } else {
-                                                                monstre.setHitPoints(monstre.getHitPoints() - dmg);
-                                                                entrat = true;
                                                             }
                                                         }
-                                                    } while (!entrat);
-
+                                                    }else {
+                                                        do {
+                                                            monstreAAtacar = daumonstre(ordre.size());
+                                                            Combat monstre = ordre.get(monstreAAtacar);
+                                                            if (monstre.getTipus().equals("Monster")) {
+                                                                if (monstre.getTipus().equals("Boss")) {
+                                                                    if (monstre.getMal().equals(combat.getMal())) {
+                                                                        dmg = dmg/2;
+                                                                    }
+                                                                }
+                                                                entrat = true;
+                                                            }
+                                                        } while (!entrat);
+                                                    }
                                                     Combat monstre = ordre.get(monstreAAtacar);
+                                                    monstre.setHitPoints(monstre.getHitPoints() - dmg);
 
                                                     System.out.println(personatge.getName() + " attacks " + monstre.getNom() + " with Sword slash. \n" +
                                                             "Hits and deals " + dmg + " physical damage.\n");

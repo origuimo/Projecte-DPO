@@ -49,4 +49,9 @@ public class Dau {
 
         return numero;
     }
+    public static Integer dau3cares() {
+        int numero = (int) (Math.random() * 3 + 1);
+
+        return numero;
+    }
 }
