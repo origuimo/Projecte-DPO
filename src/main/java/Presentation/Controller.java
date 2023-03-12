@@ -119,7 +119,7 @@ public class Controller {
                 player++;
             }
         }
-        if(personatge.getTipus().equals("Aventurer")){
+        if(personatge.getTipus().equals("Adventurer")){
             dmg = dau6 + personatge.getBody();
         }else if(personatge.getTipus().equals("Guerrer") || personatge.getTipus().equals("Campio")){
             dmg = dau10 + personatge.getBody();
@@ -841,6 +841,7 @@ public class Controller {
                                                                     nousCharacters.get(m).setHitPoints(nousCharacters.get(m).getHitPoints() - dmg);
                                                                     if(nousCharacters.get(m).getHitPoints() < 0){
                                                                         nousCharacters.get(m).setHitPoints(0);
+                                                                        player.setHitPoints(player.getHitPoints() - (dmg * mult));
                                                                     }
                                                                 }
                                                             }
@@ -877,6 +878,7 @@ public class Controller {
                                                             for (int j = 0; j < nousCharacters.size(); j++) {
                                                                 if(nousCharacters.get(j).equals(player.getNom())){
                                                                     nousCharacters.get(j).setHitPoints(nousCharacters.get(j).getHitPoints() - (dmg * mult));
+                                                                    player.setHitPoints(player.getHitPoints() - (dmg * mult));
                                                                     if(nousCharacters.get(j).getHitPoints() < 0 ){
                                                                         nousCharacters.get(j).setHitPoints(0);
                                                                     }
