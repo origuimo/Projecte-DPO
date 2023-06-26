@@ -37,6 +37,9 @@ public class Controller {
 
     public void invalidData(){
         System.out.println("\tInvalid format for Data.");
+    }
+
+    public void invalidData2(){
         System.out.println("\tPlease enter a valid Data: ");
     }
 
@@ -90,6 +93,9 @@ public class Controller {
 
     public void errorLvl(){
         System.out.println("\tInvalid format for level.");
+    }
+
+    public void errorLvl2(){
         System.out.println("\tPlease enter a valid level: ");
     }
 
@@ -161,6 +167,10 @@ public class Controller {
 
     public void errorTriar(){
         System.out.println("\tInvalid format for meet player.");
+
+    }
+
+    public void errorTriar2(){
         System.out.println("\tPlease enter a valid number: ");
     }
 
@@ -197,6 +207,10 @@ public class Controller {
 
     public void errorEncounters(){
         System.out.println("\tInvalid format of encounters");
+
+    }
+
+    public void errorEncounters2(){
         System.out.println("\tPlease enter a valid number: ");
     }
 
@@ -228,6 +242,9 @@ public class Controller {
 
     public void errormenu(){
         System.out.println("\tInvalid format of option");
+    }
+
+    public void errormenu2(){
         System.out.println("\tPlease enter a valid number: ");
     }
 

@@ -169,21 +169,21 @@ public class BusinessManager {
         try {
             data = Integer.parseInt(scanner.nextLine());
         } catch (Exception e) {
-            System.out.println("\tInvalid format for Data.");
+            presentationController.getUiController().invalidData();
             ok = false;
         }
         while (data > 2 || data < 1 || !ok) {
-            System.out.println("\tPlease enter a valid Data: ");
+            presentationController.getUiController().invalidData2();
             try {
                 data = Integer.parseInt(scanner.nextLine());
                 ok = true;
             } catch (Exception e) {
-                System.out.println("\tInvalid format for Data.\n");
+                presentationController.getUiController().invalidData();
                 ok = false;
             }
         }
         if (data == 2) {
-            System.out.println("Loading data...");
+            presentationController.getUiController().load();
             try {
                 URL url = new URL("https://balandrau.salle.url.edu/dpoo/shared/monsters");
                 //URL url = new URL("https://monet.cat/posts/fromfeed2");
@@ -203,67 +203,52 @@ public class BusinessManager {
                 System.out.println(resposta);
             } catch (Exception e) {
                 e.printStackTrace();
-                System.out.println("Couldn’t connect to the remote server.\nReverting to local data.\n");
+                presentationController.getUiController().errorData();
                 correcte = false;
             }
         } else if (data == 1 || !correcte) {
             correcte = true;
-            System.out.println("Loading data...");
+            presentationController.getUiController().load();
 
             try {
                 monstres = MonstreJson.llegirMonstres();
-                System.out.println("Data was successfully loaded.");
+                presentationController.getUiController().okData();
             } catch (IOException e) {
-                System.out.print("Error: The monsters.json file can't be accessed.");
+                presentationController.getUiController().noMonsters();
                 correcte = false;
             }
             personatges = PersonatgeJson.llegirPersonatges();
         }
         if (correcte) {
             do {
-                System.out.println("The tavern keeper looks at you and says:");
-                System.out.println("\"" + "Welcome adventurer! How can i help you?" + "\"\n");
-                System.out.println("\t1) Character creation\n" +
-                        "\t2) List characters\n" +
-                        "\t3) Create an adventure\n" +
-                        "\t4) Start an adventure\n" +
-                        "\t5) Exit\n");
-                System.out.println("Your answer: ");
+                presentationController.getUiController().menu();
                 opcio = Integer.parseInt(scanner.nextLine());
                 switch (opcio) {
                     case 1:
-                        System.out.println("Tavern keeper: " + "\"" + "Oh, so you are new to this land." + "\"\n\"" +
-                                "What’s your name?" + "\"\n");
-                        System.out.println("-> Enter your name: ");
+                        presentationController.getUiController().enterName();
                         String nom = scanner.nextLine();
-                        System.out.println("Tavern keeper: " + "\"" + "Hello, " + nom + ", be welcome." + "\"\n" +
-                                "\"" + "And now, if I may break the fourth wall, who is your Player?" + "\"");
-                        System.out.println("-> Enter the player's name: ");
+                        presentationController.getUiController().confirmName(nom);
                         String jugador = scanner.nextLine();
-                        System.out.println("Tavern keeper: " + "\"" + "I see, I see..." + "\"\n\"" +
-                                "Now, are you an experienced explorer?" + "\"\n");
-                        System.out.println("-> Enter character's level [1..10]: ");
+                        presentationController.getUiController().checkLvl();
                         int nivell = 0;
                         ok = true;
                         try {
                             nivell = Integer.parseInt(scanner.nextLine());
                         } catch (Exception e) {
-                            System.out.println("\tInvalid format for level.");
+                            presentationController.getUiController().errorLvl();
                             ok = false;
                         }
                         while (nivell > 10 || nivell < 1 || !ok) {
-                            System.out.println("\tPlease enter a valid level: ");
+                            presentationController.getUiController().errorLvl2();
                             try {
                                 nivell = Integer.parseInt(scanner.nextLine());
                                 ok = true;
                             } catch (Exception e) {
-                                System.out.println("\tInvalid format for level.\n");
+                                presentationController.getUiController().errorLvl();
                                 ok = false;
                             }
                         }
-                        System.out.println("Taverner keeper: " + "\"" + "Oh, so you are level " + nivell + "!\"\n\"" +
-                                "Great, let me get a closer look at you..." + "\"\n");
-                        System.out.println("Generating your stats...\n");
+                        presentationController.getUiController().okLvl(nivell);
                         ArrayList<Integer> numeros = new ArrayList<>();
                         nums = daus6cares();
                         int dau1 = nums.get(0);
@@ -271,21 +256,21 @@ public class BusinessManager {
                         int sum = dau1 + dau2;
                         numeros.add(sum);
 
-                        System.out.println("Body:\tYou rolled " + sum + " (" + dau1 + " and " + dau2 + ").");
+                        presentationController.getUiController().stBody(sum, dau1, dau2);
                         nums = daus6cares();
                         dau1 = nums.get(0);
                         dau2 = nums.get(1);
                         sum = dau1 + dau2;
                         numeros.add(sum);
 
-                        System.out.println("Mind:\tYou rolled " + sum + " (" + dau1 + " and " + dau2 + ").");
+                        presentationController.getUiController().stMind(sum, dau1, dau2);
                         nums = daus6cares();
                         dau1 = nums.get(0);
                         dau2 = nums.get(1);
                         sum = dau1 + dau2;
                         numeros.add(sum);
 
-                        System.out.println("Spirit: You rolled " + sum + " (" + dau1 + " and " + dau2 + ").\n");
+                        presentationController.getUiController().stSpirit(sum, dau1, dau2);
 
                         for (int i = 0; i < 3; i++) {
                             if (numeros.get(i) == 2) {
@@ -301,63 +286,54 @@ public class BusinessManager {
                             }
                         }
 
-                        System.out.println("Your states are:");
-                        System.out.println("\t- Body: " + numeros.get(0));
-                        System.out.println("\t- Mind: " + numeros.get(1));
-                        System.out.println("\t- Spirit: " + numeros.get(2));
+                        presentationController.getUiController().stats(numeros);
                         int Body = numeros.get(0);
                         int Mind = numeros.get(1);
                         int Spirit = numeros.get(2);
 
-                        System.out.println("Tavern keeper: “Looking good!”\n" +
-                                "“And, lastly, ?”\n");
-                        System.out.println("-> Enter the character’s initial class [Adventurer, Cleric, Mage]: ");
+                        presentationController.getUiController().chClass();
                         String tipus = scanner.nextLine();
 
                         Personatge a = new Personatge(nom, jugador, (nivell * 99), Body, Mind, Spirit, tipus);
                         personatges.add(a);
 
-                        System.out.println("Tavern keeper: “Any decent party needs one of those.”\n" +
-                                "“I guess that means you’re a Paladin by now, nice!”\n");
-                        System.out.println("The new character" + nom + "has been created.\n ");
+                        presentationController.getUiController().personatgeCreat(nom);
                         break;
                     case 2:
-                        System.out.println("Tavern keeper: " + "\"" + "Lads! they want to see you!\"\n\"" +
-                                "Who piques your interest?\"\n");
-                        System.out.println("-> Enter the name of the Player to filter: ");
+                        presentationController.getUiController().filterName();
                         String nomJugador = scanner.nextLine();
                         if (nomJugador.isEmpty()) {
-                            System.out.println("You watch all adventurers get up from their chairs and approach you.");
+                            presentationController.getUiController().tots();
                         } else {
-                            System.out.println("You watch as some adventurers get up from their chairs and approach you.");
+                            presentationController.getUiController().alguns();
                         }
                         int x = 1;
                         Personatge personatgeAux = null;
                         for (int i = 0; i < personatges.size(); i++) {
                             personatgeAux = personatges.get(i);
                             if (personatgeAux.getPlayer().contains(nomJugador)) {
-                                System.out.println(x + ". " + personatgeAux.getName());
+                                presentationController.getUiController().llistarPerson(x, personatgeAux);
                                 x++;
                             }
                         }
-                        System.out.println("\n0. Back\n");
+                        presentationController.getUiController().back();
                         x--;
-                        System.out.println("Who would you like to meet? [0.." + x + "]");
+                        presentationController.getUiController().triaPerson(x);
                         int numPersonatge = 0;
                         ok = true;
                         try {
                             numPersonatge = Integer.parseInt(scanner.nextLine());
                         } catch (Exception e) {
-                            System.out.println("\tInvalid format for meet player.");
+                            presentationController.getUiController().errorTriar();
                             ok = false;
                         }
                         while (numPersonatge > x || numPersonatge < 0 || !ok) {
-                            System.out.println("\tPlease enter a valid number: ");
+                            presentationController.getUiController().errorTriar2();
                             try {
                                 numPersonatge = Integer.parseInt(scanner.nextLine());
                                 ok = true;
                             } catch (Exception e) {
-                                System.out.println("\tInvalid format for meet player.");
+                                presentationController.getUiController().errorTriar();
                                 ok = false;
                             }
                         }
@@ -379,16 +355,12 @@ public class BusinessManager {
                             }
                             j--;
                             personatgeAux = personatges.get(j);
-                            System.out.println("Tavern keeper: \"Hey " + personatgeAux.getName() + " get here; the boss wants to see you!\"\n");
-                            System.out.println(personatgeAux.toString());
-                            System.out.println("[Enter name to delete, or press enter to cancel]");
-                            System.out.println("Do you want to delete " + personatgeAux.getName() + "?");
+                            presentationController.getUiController().eliminarPerson(personatgeAux);
                             String nomEliminar = scanner.nextLine();
                             if (nomEliminar.isEmpty()) {
 
                             } else if (nomEliminar.equals(personatgeAux.getName())) {
-                                System.out.println("\nTavern keeper: \"I'm sorry kiddo, but you have to leave.\"\n");
-                                System.out.println("Character " + personatgeAux.getName() + " left the Guild");
+                                presentationController.getUiController().personEliminat(personatgeAux);
                                 personatges.remove(j);
                             }
                         }
@@ -397,8 +369,7 @@ public class BusinessManager {
                         boolean existeix;
                         String nomAventura;
                         existeix = false;
-                        System.out.println("Tavern keeper: “Planning an adventure? Good luck with that!“");
-                        System.out.println("-> Name your adventure: ");
+                        presentationController.getUiController().createAventura();
 
                         nomAventura = scanner.nextLine();
                         Aventura c;
@@ -411,32 +382,30 @@ public class BusinessManager {
                             }
                         }
                         if (existeix) {
-                            System.out.println("This adventure already exists\n");
+                            presentationController.getUiController().existAdventure();
                         } else {
                             JSONObject aventura = new JSONObject();
 
                             aventura.put("Nom", nomAventura);
 
-                            System.out.println("Tavern keeper: “You plan to undertake " + nomAventura + ", really?“\n" +
-                                    "“How long will that take?“");
-                            System.out.println("-> How many encounters do you want [1..4]: ");
+                            presentationController.getUiController().encounters(nomAventura);
                             int sumErrors = 0;
                             ok = true;
                             try {
                                 enfrentaments = Integer.parseInt(scanner.nextLine());
                             } catch (Exception e) {
-                                System.out.println("\tInvalid format of encounters");
+                                presentationController.getUiController().errorEncounters();
                                 ok = false;
                             }
                             sumErrors++;
                             while ((enfrentaments > 4 || enfrentaments < 1 || !ok) && sumErrors < 3) {
-                                System.out.println("\tPlease enter a valid number: ");
+                                presentationController.getUiController().errorEncounters2();
                                 try {
                                     enfrentaments = Integer.parseInt(scanner.nextLine());
                                     ok = true;
                                     sumErrors++;
                                 } catch (Exception e) {
-                                    System.out.println("\tInvalid format of encounters");
+                                    presentationController.getUiController().errorEncounters();
                                     ok = false;
                                     sumErrors++;
                                 }
@@ -453,7 +422,7 @@ public class BusinessManager {
 
                                 aventura.put("NumEnfrentaments", enfrentaments);
 
-                                System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...“");
+                                presentationController.getUiController().sumEncounters(enfrentaments);
                                 int i = 0;
                                 int j = 1;
                                 int opcio2 = 0;
@@ -461,34 +430,32 @@ public class BusinessManager {
                                     JSONArray monstresJSON = new JSONArray();
                                     do {
                                         ArrayList<Monstre> monstres1;
-                                        System.out.println("* Encounter " + j + " / " + enfrentaments);
-                                        System.out.println("* Monsters in encounter");
+                                        presentationController.getUiController().encounter(j, enfrentaments);
                                         monstres1 = arrayDeArray.get(i);
                                         if (monstres1.isEmpty()) {
-                                            System.out.println("\t#Empty");
+                                            presentationController.getUiController().empty();
                                         } else {
                                             for (int k = 0; k < monstres1.size(); k++) {
                                                 Monstre monstresAux = monstres1.get(k);
-                                                System.out.println("\t" + (k + 1) + ". " + monstresAux.getName() + " (X" + monstresAux.getQuantitat() + ")");
+                                                presentationController.getUiController().showMonsters(k, monstresAux);
                                             }
                                         }
 
-                                        System.out.println("\n1. Add monster\n2. Remove monster\n3. Continue\n");
-                                        System.out.println("-> Enter an option [1..3]");
+                                        presentationController.getUiController().menuEncounter();
                                         ok = true;
                                         try {
                                             opcio2 = Integer.parseInt(scanner.nextLine());
                                         } catch (Exception e) {
-                                            System.out.println("\tInvalid format of option");
+                                            presentationController.getUiController().errormenu();
                                             ok = false;
                                         }
                                         while (opcio2 > 3 || opcio2 < 1 || !ok) {
-                                            System.out.println("\tPlease enter a valid number: ");
+                                            presentationController.getUiController().errormenu2();
                                             try {
                                                 opcio2 = Integer.parseInt(scanner.nextLine());
                                                 ok = true;
                                             } catch (Exception e) {
-                                                System.out.println("\tInvalid format of option");
+                                                presentationController.getUiController().errormenu();
                                                 ok = false;
                                             }
                                         }
@@ -496,9 +463,9 @@ public class BusinessManager {
                                             case 1:
                                                 for (int k = 0; k < monstres.size(); k++) {
                                                     Monstre monstresAux = monstres.get(k);
-                                                    System.out.println((k + 1) + ". " + monstresAux.getName() + " (" + monstresAux.getChallenge() + ")");
+                                                    presentationController.getUiController().showAllMonsters(k, monstresAux);
                                                 }
-                                                System.out.println("-> Choose a monster to add [1.." + monstres.size() + "]:");
+                                                presentationController.getUiController().chooseMonster(monstres);
                                                 int numMonstre = 0;
                                                 ok = true;
                                                 try {
