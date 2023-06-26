@@ -6,6 +6,7 @@ import Presentation.PresentationController;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import javax.imageio.plugins.jpeg.JPEGImageWriteParam;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -471,38 +472,38 @@ public class BusinessManager {
                                                 try {
                                                     numMonstre = Integer.parseInt(scanner.nextLine());
                                                 } catch (Exception e) {
-                                                    System.out.println("\tInvalid format for monster.");
+                                                    presentationController.getUiController().errorMonsters();
                                                     ok = false;
                                                 }
                                                 while (numMonstre > monstres.size() || numMonstre < 1 || !ok) {
-                                                    System.out.println("\tPlease enter a valid number: ");
+                                                    presentationController.getUiController().errorMonsters2();
                                                     try {
                                                         numMonstre = Integer.parseInt(scanner.nextLine());
                                                         ok = true;
                                                     } catch (Exception e) {
-                                                        System.out.println("\tInvalid format for monster.");
+                                                        presentationController.getUiController().errorMonsters();
                                                         ok = false;
                                                     }
                                                 }
                                                 numMonstre--;
                                                 Monstre monstresAux = monstres.get(numMonstre);
-                                                System.out.println("-> How much " + monstresAux.getName() + "(s) do you want to add: ");
+                                                presentationController.getUiController().monstersQuantity(monstresAux);
 
                                                 int quantitat = 0;
                                                 ok = true;
                                                 try {
                                                     quantitat = Integer.parseInt(scanner.nextLine());
                                                 } catch (Exception e) {
-                                                    System.out.println("\tInvalid format for monster.");
+                                                    presentationController.getUiController().errorMonsters();
                                                     ok = false;
                                                 }
                                                 while (quantitat > monstres.size() || quantitat < 1 || !ok) {
-                                                    System.out.println("\tPlease enter a valid number: ");
+                                                    presentationController.getUiController().errorMonsters2();
                                                     try {
                                                         quantitat = Integer.parseInt(scanner.nextLine());
                                                         ok = true;
                                                     } catch (Exception e) {
-                                                        System.out.println("\tInvalid format for monster.");
+                                                        presentationController.getUiController().errorMonsters();
                                                         ok = false;
                                                     }
                                                 }
@@ -515,29 +516,29 @@ public class BusinessManager {
                                                 monstres1.add(b);
                                                 break;
                                             case 2:
-                                                System.out.println("-> Wich monster do you want to delate: ");
+                                                presentationController.getUiController().deleteMonster();
                                                 int num_Monstre = 0;
                                                 ok = true;
                                                 try {
                                                     num_Monstre = Integer.parseInt(scanner.nextLine());
                                                 } catch (Exception e) {
-                                                    System.out.println("\tInvalid format for monster.");
+                                                    presentationController.getUiController().errorMonsters();
                                                     ok = false;
                                                 }
                                                 while (num_Monstre > monstres.size() || num_Monstre < 1 || !ok) {
-                                                    System.out.println("\tPlease enter a valid number: ");
+                                                    presentationController.getUiController().errorMonsters2();
                                                     try {
                                                         num_Monstre = Integer.parseInt(scanner.nextLine());
                                                         ok = true;
                                                     } catch (Exception e) {
-                                                        System.out.println("\tInvalid format for monster.");
+                                                        presentationController.getUiController().errorMonsters();
                                                         ok = false;
                                                     }
                                                 }
                                                 num_Monstre--;
                                                 Monstre monstreAux = monstres1.get(num_Monstre);
                                                 monstres1.remove(num_Monstre);
-                                                System.out.println(monstreAux.getQuantitat() + " " + monstreAux.getName() + "were removed from the encounter.");
+                                                presentationController.getUiController().monsterDeleted(monstreAux);
                                                 break;
                                             case 3:
                                                 JSONObject enfrentament = new JSONObject();
@@ -550,71 +551,65 @@ public class BusinessManager {
                                         }
                                     } while (opcio2 != 3);
                                 } while (i < enfrentaments);
-                                System.out.println("Tavern keeper: “Great plan lad! I hope you won’t die!“");
-                                System.out.println("The new adventure " + nomAventura + " has been created.\n");
+                                presentationController.getUiController().endCase3(nomAventura);
                                 aventura.put("Enfrentaments", arrayEnfrentaments);
                                 escriureAventura(aventura);
                             } else {
-                                System.out.println("Too much tries");
+                                presentationController.getUiController().muchTries();
                             }
                         }
                         break;
                     case 4:
-                        System.out.println("Tavern keeper: “So, you are looking to go on an adventure?“\n" +
-                                "“Where do you fancy going?“");
-                        System.out.println("Available adventures:");
+                        presentationController.getUiController().startAdventure();
                         if (personatges.size() < 3) {
-                            System.out.println("Falten personatges, minim 3.");
+                            presentationController.getUiController().errorPersonatges();
                         } else {
                             for (int k = 0; k < aventures.size(); k++) {
                                 Aventura z = aventures.get(k);
-                                System.out.println((k + 1) + ". " + z.getNom());
+                                presentationController.getUiController().aventures(k, z);
                             }
                         }
-                        System.out.println("-> Choose an adventure: ");
+                        presentationController.getUiController().chooseAdv();
                         int numAventura = 0;
                         ok = true;
                         try {
                             numAventura = Integer.parseInt(scanner.nextLine());
                         } catch (Exception e) {
-                            System.out.println("\tInvalid format for adventure.");
+                            presentationController.getUiController().errorAdv();
                             ok = false;
                         }
                         while (numAventura > aventures.size() || numAventura < 1 || !ok) {
-                            System.out.println("\tPlease enter a valid number: ");
+                            presentationController.getUiController().errorAdv2();
                             try {
                                 numAventura = Integer.parseInt(scanner.nextLine());
                                 ok = true;
                             } catch (Exception e) {
-                                System.out.println("\tInvalid format for adventure.");
+                                presentationController.getUiController().errorAdv();
                                 ok = false;
                             }
                         }
                         numAventura--;
                         Aventura nomAcenturaAux = aventures.get(numAventura);
-                        System.out.println("Tavern keeper: “" + nomAcenturaAux.getNom() + " it is!“\n" +
-                                "“And how many people shall join you?“");
-                        System.out.println("-> Choose a number of characters [3..5]: ");
+                        presentationController.getUiController().confirmAdv(nomAcenturaAux);
                         int numCharacters = 0;
                         ok = true;
                         try {
                             numCharacters = Integer.parseInt(scanner.nextLine());
                         } catch (Exception e) {
-                            System.out.println("\tInvalid format for adventure.");
+                            presentationController.getUiController().errorAdv();
                             ok = false;
                         }
                         while (numCharacters > 5 || numCharacters < 3 || !ok) {
-                            System.out.println("\tPlease enter a valid number: ");
+                            presentationController.getUiController().errorAdv2();
                             try {
                                 numCharacters = Integer.parseInt(scanner.nextLine());
                                 ok = true;
                             } catch (Exception e) {
-                                System.out.println("\tInvalid format for adventure.");
+                                presentationController.getUiController().errorAdv();
                                 ok = false;
                             }
                         }
-                        System.out.println("Tavern keeper: “Great," + numCharacters + " it is.“\n" +
-                                "“Who among these lads shall join you?“");
+                        presentationController.getUiController().confirmChar(numCharacters);
                         ArrayList<Personatge> nousCharacters = new ArrayList<>();
 
                         //Inicialitzar tot a " " el array nousCharacters
@@ -623,38 +618,36 @@ public class BusinessManager {
                         }*/
 
                         for (int i = 0; i < numCharacters; i++) {
-                            System.out.println("------------------------------");
-                            System.out.println("Your party (" + i + "/ " + numCharacters + "):");
+                            presentationController.getUiController().indexParty(i, numCharacters);
                             for (int j = 0; j < numCharacters; j++) {
                                 if (nousCharacters.size() < (j + 1)) {
-                                    System.out.println((j + 1) + ". Empty");
+                                    presentationController.getUiController().emptyParty(j);
                                 } else {
                                     Personatge charactersAux = nousCharacters.get(j);
-                                    System.out.println((j + 1) + ". " + charactersAux.getName());
+                                    presentationController.getUiController().printchar(j, charactersAux);
                                 }
                             }
-                            System.out.println("------------------------------");
-                            System.out.println("Available characters:");
+                            presentationController.getUiController().charAvailable();
                             for (int j = 0; j < personatges.size(); j++) {
                                 Personatge pAux = personatges.get(j);
-                                System.out.println((j + 1) + ". " + pAux.getName());
+                                presentationController.getUiController().charList(j, pAux);
                             }
-                            System.out.println("-> Choose character " + (i + 1) + " in your party:");
+                            presentationController.getUiController().chooseChar(i);
                             int triaCharacter = 0;
                             ok = true;
                             try {
                                 triaCharacter = Integer.parseInt(scanner.nextLine());
                             } catch (Exception e) {
-                                System.out.println("\tInvalid format for adventure.");
+                                presentationController.getUiController().errorAdv();
                                 ok = false;
                             }
                             while (triaCharacter > personatges.size() || triaCharacter < 1 || !ok) {
-                                System.out.println("\tPlease enter a valid number: ");
+                                presentationController.getUiController().errorAdv2();
                                 try {
                                     triaCharacter = Integer.parseInt(scanner.nextLine());
                                     ok = true;
                                 } catch (Exception e) {
-                                    System.out.println("\tInvalid format for adventure.");
+                                    presentationController.getUiController().errorAdv();
                                     ok = false;
                                 }
                             }
@@ -662,53 +655,46 @@ public class BusinessManager {
                             Personatge pAux = personatges.get(triaCharacter);
                             nousCharacters.add(pAux);
                         }
-                        System.out.println("------------------------------");
-                        System.out.println("Your party (" + numCharacters + "/ " + numCharacters + "):");
+                        presentationController.getUiController().indexPartyEnd(numCharacters);
                         for (int j = 0; j < numCharacters; j++) {
                             if (nousCharacters.size() < (j + 1)) {
-                                System.out.println((j + 1) + ". Empty");
+                               presentationController.getUiController().emptyParty(j);
                             } else {
                                 Personatge charactersAux = nousCharacters.get(j);
-                                System.out.println((j + 1) + ". " + charactersAux.getName());
+                                presentationController.getUiController().printchar(j, charactersAux);
                             }
                         }
-                        System.out.println("------------------------------\n");
-                        System.out.println("Tavern keeper: “Great, good luck on your adventure lads!“");
-                        System.out.println("The “" + nomAcenturaAux.getNom() + "“ will start soon...\n");
+                        presentationController.getUiController().startAdventure(nomAcenturaAux);
 
                         for (int i = 0; i < enfrentaments; i++) {
-                            System.out.println("---------------------");
-                            System.out.println("Starting Encounter " + (i + 1) + ":");
+                            presentationController.getUiController().startEncounter(i);
                             ArrayList<Monstre> monstres1;
                             monstres1 = arrayDeArray.get(i);
                             for (int j = 0; j < monstres1.size(); j++) {
                                 Monstre monstreAux = monstres1.get(j);
-                                System.out.println("- " + monstreAux.getQuantitat() + "x " + monstreAux.getName());
+                                presentationController.getUiController().monstresEncounter(monstreAux);
                             }
-                            System.out.println("---------------------\n\n");
-                            System.out.println("-------------------------\n" +
-                                    "*** Preparation stage ***\n" +
-                                    "-------------------------");
+                            presentationController.getUiController().prepariationStage();
                             for (int j = 0; j < nousCharacters.size(); j++) {
                                 Personatge personatge = nousCharacters.get(j);
                                 if (personatge.getTipus().equals("Adventurer") || personatge.getTipus().equals("Guerrer")) {
-                                    System.out.println(personatge.getName() + " uses Self-Motivated. Their Spirit increases in +1.\n");
+                                    presentationController.getUiController().prepaAV(personatge);
                                     personatge.setSpirit(personatge.getSpirit() + 1);
                                 } else if (personatge.getTipus().equals("Campio")) {
-                                    System.out.println(personatge.getName() + "uses Motivational speech. Everyone’s Spirit increases in +1.\n");
+                                    presentationController.getUiController().prepaChamp(personatge);
                                     for (int k = 0; k < nousCharacters.size(); k++) {
                                         Personatge aux = nousCharacters.get(k);
                                         aux.setSpirit(aux.getSpirit() + 1);
                                     }
                                 } else if (personatge.getTipus().equals("Clergue")) {
-                                    System.out.println(personatge.getName() + " uses Prayer of good luck. Everyone’s Mind increases in +1.\n");
+                                    presentationController.getUiController().prepaClrg(personatge);
                                     for (int k = 0; k < nousCharacters.size(); k++) {
                                         Personatge aux = nousCharacters.get(k);
                                         aux.setMind(aux.getMind() + 1);
                                     }
                                 } else if (personatge.getTipus().equals("Paladi")) {
                                     int num = dau3cares();
-                                    System.out.println(personatge.getName() + " uses Blessing of good luck. Everyone’s Mind increases in " + num + ".\n");
+                                    presentationController.getUiController().prepaPldi(personatge, num);
                                     for (int k = 0; k < nousCharacters.size(); k++) {
                                         Personatge aux = nousCharacters.get(k);
                                         aux.setMind(aux.getMind() + num);
@@ -755,30 +741,25 @@ public class BusinessManager {
                                 Combat aux = new Combat(iniciativa, personatge.getName(), "persona", personatge.getHitPoints(), personatge.getXp(), true, mal);
                                 ordre.add(aux);
                             }
-                            System.out.println("Rolling initiative...");
+                            presentationController.getUiController().rollIniciative();
                             Collections.sort(ordre, Comparator.comparingInt(Combat::getIniciativa));
                             Collections.reverse(ordre);
 
                             for (int j = 0; j < ordre.size(); j++) {
                                 Combat ordreAux = ordre.get(j);
-                                System.out.println("- " + ordreAux.getIniciativa() + "\t" + ordreAux.getNom());
+                                presentationController.getUiController().printInciative(ordreAux);
                             }
-                            System.out.println("--------------------\n" +
-                                    "*** Combat stage ***\n" +
-                                    "--------------------");
-
+                            presentationController.getUiController().combatStage();
                             int z = 1;
                             int nMonstres = ordre.size() - nousCharacters.size();
                             int nPlayers = nousCharacters.size();
                             int sumHitPoints = 0;
                             int xp = 0;
                             do {
-                                System.out.println("Round " + z);
-                                System.out.println("Party: ");
-
+                                presentationController.getUiController().round(z);
                                 for (int j = 0; j < nousCharacters.size(); j++) {
                                     Personatge personatge = nousCharacters.get(j);
-                                    System.out.println("- " + personatge.getName() + "\t" + personatge.getHitPoints() + " / " + personatge.getMaxPoints() + " hit points");
+                                    presentationController.getUiController().personHealth(personatge);
                                 }
 
                                 for (int k = 0; k < ordre.size(); k++) {
@@ -825,12 +806,11 @@ public class BusinessManager {
                                                             sb.append(", ").append(jugadors.get(j));
                                                         }
                                                     }
-                                                    System.out.println(monstre.getName() + " attacks " + sb.toString() + ".\n"
-                                                            + "Hits and deals " + dmg + " physical damage.\n");
+                                                    presentationController.getUiController().bossAttack(monstre, sb, dmg);
                                                     for (int j = 0; j < ordre.size(); j++) {
                                                         Combat player = ordre.get(j);
                                                         if (player.getHitPoints() <= 0 && player.getTipus().equals("persona") && player.isAlive()) {
-                                                            System.out.println(player.getNom() + " inconcient.");
+                                                            presentationController.getUiController().inconcient(player);
                                                             player.setHitPoints(0);
                                                             player.setAlive(false);
                                                             nPlayers--;
@@ -856,10 +836,9 @@ public class BusinessManager {
                                                     } while (!entrat);
 
                                                     Combat player = ordre.get(jugadorAAtacar);
-                                                    System.out.println(monstre.getName() + " attacks " + player.getNom() + ".\n"
-                                                            + "Hits and deals " + dmg + " physical damage.\n");
+                                                    presentationController.getUiController().monsterAttack(monstre, player, dmg);
                                                     if (player.getHitPoints() <= 0 && player.isAlive()) {
-                                                        System.out.println(player.getNom() + " inconcient.");
+                                                        presentationController.getUiController().inconcient(player);
                                                         player.setHitPoints(0);
                                                         player.setAlive(false);
                                                         nPlayers--;
@@ -909,10 +888,9 @@ public class BusinessManager {
                                                     Combat monstre = ordre.get(monstreAAtacar);
                                                     monstre.setHitPoints(monstre.getHitPoints() - dmg);
 
-                                                    System.out.println(personatge.getName() + " attacks " + monstre.getNom() + " with Sword slash. \n" +
-                                                            "Hits and deals " + dmg + " physical damage.\n");
+                                                    presentationController.getUiController().personAttack(personatge, monstre, dmg);
                                                     if (monstre.getHitPoints() <= 0 && monstre.isAlive()) {
-                                                        System.out.println(monstre.getNom() + " dies.");
+                                                        presentationController.getUiController().dies(monstre);
                                                         monstre.setAlive(false);
                                                         nMonstres = ordre.size() - nousCharacters.size();
                                                         xp += monstre.getXp();
@@ -923,20 +901,18 @@ public class BusinessManager {
                                     }
                                     //}
                                 }
-                                System.out.println("End of round " + z);
+                                presentationController.getUiController().end(z);
                                 z++;
 
                             } while (nMonstres > 0 && nPlayers > 0);
-                            System.out.println("All enemies are defeated.");
+                            presentationController.getUiController().defeated();
 
                             if (sumHitPoints > 0) {
-                                System.out.println("------------------------\n" +
-                                        "*** Short rest stage ***\n" +
-                                        "------------------------\n");
+                                presentationController.getUiController().restStage();
                                 for (int j = 0; j < nousCharacters.size(); j++) {
                                     Personatge aux = nousCharacters.get(j);
                                     aux.setXp(aux.getXp() + xp);
-                                    System.out.println(aux.getName() + " gains " + xp + " xp.");
+                                    presentationController.getUiController().gainXp(aux, xp);
 
                                 }
                                 for (int j = 0; j < ordre.size(); j++) {
@@ -952,9 +928,9 @@ public class BusinessManager {
                                                 } else {
                                                     aux.setHitPoints(aux.getHitPoints() + cura);
                                                 }
-                                                System.out.println(aux.getNom() + " uses Bandage time. Heals " + cura + " hit points");
+                                                presentationController.getUiController().heals(aux, cura);
                                             } else {
-                                                System.out.println(aux.getNom() + " is unconscious.");
+                                                presentationController.getUiController().unconscious(aux);
                                             }
                                         }
                                     }
@@ -963,10 +939,10 @@ public class BusinessManager {
                         }
                         break;
                     case 5:
-                        System.out.println("Tavern keeper: " + "\"" + "Are you leaving already? See you soon, adventurer." + "\"");
+                        presentationController.getUiController().leave();
                         break;
                     default:
-                        System.out.println("Invalid option!");
+                        presentationController.getUiController().invalid();
                         break;
                 }
             } while (opcio != 5);

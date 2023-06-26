@@ -1,22 +1,7 @@
 package Presentation;
 
 import Business.*;
-import Persistance.ApiHelper;
-import Persistance.MonstreJson;
-import Persistance.PersonatgeJson;
-import org.json.JSONArray;
-import org.json.JSONObject;
-
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
-import java.util.stream.Collectors;
-
-import static Business.Dau.*;
-import static Persistance.AventuraJson.escriureAventura;
 
 
 public class Controller {
@@ -258,6 +243,9 @@ public class Controller {
 
     public void errorMonsters(){
         System.out.println("\tInvalid format for monster.");
+    }
+
+    public void errorMonsters2(){
         System.out.println("\tPlease enter a valid number: ");
     }
 
@@ -287,6 +275,10 @@ public class Controller {
         System.out.println("Available adventures:");
     }
 
+    public void aventures(int k, Aventura z){
+        System.out.println((k + 1) + ". " + z.getNom());
+    }
+
     public void errorPersonatges(){
         System.out.println("Falten personatges, minim 3.");
     }
@@ -297,6 +289,9 @@ public class Controller {
 
     public void errorAdv(){
         System.out.println("\tInvalid format for adventure.");
+    }
+
+    public void errorAdv2(){
         System.out.println("\tPlease enter a valid number: ");
     }
 
@@ -433,6 +428,8 @@ public class Controller {
     public void end(int z){
         System.out.println("End of round " + z);
     }
+
+    public void defeated(){System.out.println("All enemies are defeated.");}
 
     public void restStage(){
         System.out.println("------------------------\n" +
