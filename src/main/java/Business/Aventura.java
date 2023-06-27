@@ -1,5 +1,8 @@
 package Business;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import java.util.ArrayList;
 
 public class Aventura {
@@ -19,6 +22,15 @@ public class Aventura {
         this.monstres = monstres;
     }
 
+    public String toStringJsonAv() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
+    }
+    public String toString() {
+        return "* Name:" + nom + "\n" +
+                "* Enfrentaments:" + enfrentaments + "\n" +
+                "* Monsters: " + monstres + "\n";
+    }
     public String getNom() {
         return nom;
     }
@@ -27,5 +39,19 @@ public class Aventura {
         this.nom = nom;
     }
 
+    public int getEnfrentaments() {
+        return enfrentaments;
+    }
 
+    public void setEnfrentaments(int enfrentaments) {
+        this.enfrentaments = enfrentaments;
+    }
+
+    public ArrayList<Monstre> getMonstres() {
+        return monstres;
+    }
+
+    public void setMonstres(ArrayList<Monstre> monstres) {
+        this.monstres = monstres;
+    }
 }

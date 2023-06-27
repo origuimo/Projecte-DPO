@@ -1,7 +1,6 @@
 package Business;
 
-import Persistance.MonstreJson;
-import Persistance.PersonatgeJson;
+import Persistance.*;
 import Presentation.PresentationController;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,6 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static Business.Dau.*;
+import static Persistance.AventuraApi.addAventuraApi;
 import static Persistance.AventuraJson.escriureAventura;
 
 public class BusinessManager {
@@ -186,27 +186,15 @@ public class BusinessManager {
         if (data == 2) {
             presentationController.getUiController().load();
             try {
-                URL url = new URL("https://balandrau.salle.url.edu/dpoo/shared/monsters");
-                //URL url = new URL("https://monet.cat/posts/fromfeed2");
 
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setRequestMethod("GET");
-                connection.setRequestProperty("Content-Type", "application/json");
-                connection.setConnectTimeout(10000);
-                connection.setReadTimeout(10000);
+                monstres = MonstreApi.llegirMonstresApi();
 
-                //connection.setRequestProperty("api_key", "YOUR_API_KEY");
-                connection.connect();
-
-                InputStream response = connection.getInputStream();
-                String resposta = new BufferedReader(new InputStreamReader(response)).lines().collect(Collectors.joining());
-                // Procesar la respuesta aquí
-                System.out.println(resposta);
             } catch (Exception e) {
                 e.printStackTrace();
                 presentationController.getUiController().errorData();
                 correcte = false;
             }
+            personatges = PersonatgeApi.llegirPersonatgesApi();
         } else if (data == 1 || !correcte) {
             correcte = true;
             presentationController.getUiController().load();
@@ -296,7 +284,14 @@ public class BusinessManager {
                         String tipus = scanner.nextLine();
 
                         Personatge a = new Personatge(nom, jugador, (nivell * 99), Body, Mind, Spirit, tipus);
-                        personatges.add(a);
+                        //personatges.add(a);
+                        if(data == 1){
+                            PersonatgeJson.addCharacter(a);
+                        }else{
+                            PersonatgeApi.addCharacterApi(a);
+                        }
+
+
 
                         presentationController.getUiController().personatgeCreat(nom);
                         break;
@@ -362,7 +357,12 @@ public class BusinessManager {
 
                             } else if (nomEliminar.equals(personatgeAux.getName())) {
                                 presentationController.getUiController().personEliminat(personatgeAux);
-                                personatges.remove(j);
+                                if(data == 1){
+                                    PersonatgeJson.removeCharacter(nomEliminar);
+                                }else{
+                                    PersonatgeApi.removeCharacterApi(nomEliminar);
+                                }
+
                             }
                         }
                         break;
@@ -553,7 +553,11 @@ public class BusinessManager {
                                 } while (i < enfrentaments);
                                 presentationController.getUiController().endCase3(nomAventura);
                                 aventura.put("Enfrentaments", arrayEnfrentaments);
-                                escriureAventura(aventura);
+                                if(data == 1){
+                                    escriureAventura(aventura);
+                                }else{
+                                    addAventuraApi(aventura);
+                                }
                             } else {
                                 presentationController.getUiController().muchTries();
                             }

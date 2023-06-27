@@ -1,5 +1,8 @@
 package Business;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class Personatge {
     String name;
     String player;
@@ -19,6 +22,11 @@ public class Personatge {
         this.mind = mind;
         this.spirit = spirit;
         this.tipus = tipus;
+    }
+
+    public String toStringJson() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 
     public int getMaxPoints() {
