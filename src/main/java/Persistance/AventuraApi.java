@@ -8,8 +8,16 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Classe que s'encarrega de fer les gestions amb la api per l'aventutra
+ */
 public class AventuraApi {
 
+    /**
+     * Llegeix les aventures que hi han guardades a la api
+     * @return llistat de les aventures
+     * @throws IOException
+     */
     public static ArrayList<Aventura> llegirAventuresApi() throws IOException {
         boolean llegit;
         ApiHelper apiHelper = new ApiHelper();
@@ -31,6 +39,11 @@ public class AventuraApi {
         return aventuras;
     }
 
+    /**
+     * Afegeix una aventura a la api
+     * @param aventura aventura a guardar
+     * @throws IOException
+     */
     public static void addAventuraApi(JSONObject aventura) throws IOException {
 
         ApiHelper apiHelper = new ApiHelper();

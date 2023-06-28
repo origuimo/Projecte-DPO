@@ -10,8 +10,15 @@ import java.util.ArrayList;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+/**
+ * Classe encarregada de fer les gestions de les aventures amb el fitxer JSON
+ */
 public class AventuraJson {
 
+    /**
+     * Guarda una aventura al fitxer
+     * @param aventura aventura a guardar
+     */
     public static void escriureAventura(JSONObject aventura) {
         String contenidoJSON = "";
         try {
@@ -37,6 +44,10 @@ public class AventuraJson {
     }
 
 
+    /**
+     * Llegeix les aventures que tenim guardades al fitxer
+     * @return llistat de aventures
+     */
     public static ArrayList<Aventura> llegirAventures() {
         File archivo = new File("src/main/java/Fitxers/aventura.json");
         String input = "";

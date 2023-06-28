@@ -10,8 +10,16 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+/**
+ * Classe que s'encarrega de gestionar els monstres amb la api
+ */
 public class MonstreApi {
 
+    /**
+     * Llegeix els monstres guardats a la api
+     * @return llistat dels monstres
+     * @throws IOException
+     */
     public static ArrayList<Monstre> llegirMonstresApi() throws IOException {
         boolean llegit;
         ApiHelper apiHelper = new ApiHelper();

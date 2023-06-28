@@ -9,8 +9,16 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 
 
+/**
+ * Classe que gestiona la informacio dels monstres del fitxer
+ */
 public class MonstreJson {
 
+    /**
+     * Llegeix tots els monstres que tenim guardats al fitxer
+     * @return llistat de monstres
+     * @throws IOException
+     */
     public static ArrayList<Monstre> llegirMonstres() throws IOException {
         boolean llegit;
         String input = "";

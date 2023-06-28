@@ -10,9 +10,20 @@ import java.io.*;
 import java.util.ArrayList;
 
 
+/**
+ * Classe que s'encarrega de gestionar els personatges del fitxer Json
+ */
 public class PersonatgeJson {
 
+    /**
+     * Path on es troba el fitxer
+     */
     private static File a = new File("src/main/java/Fitxers/characters.json");
+
+    /**
+     * S'encarrega de llegir els personatges del fitxer
+     * @return llistat amb tots els personatges
+     */
     public static ArrayList<Personatge> llegirPersonatges(){
 
         String input = "";
@@ -49,6 +60,10 @@ public class PersonatgeJson {
         return personatges;
     }
 
+    /**
+     * S'encarrega de afegir un nou personatge al fitxer
+     * @param personatge Personatge a afegir
+     */
     public static void addCharacter(Personatge personatge){
         try {
 
@@ -77,6 +92,10 @@ public class PersonatgeJson {
         }
     }
 
+    /**
+     * S'encarrega de eliminar un personatge del fitxer
+     * @param name nom del personatge que volem eliminar
+     */
     public static void removeCharacter(String name) {
         try {
             // Ruta del archivo JSON existente
