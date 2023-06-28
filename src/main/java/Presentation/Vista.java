@@ -104,7 +104,7 @@ public class Vista {
     }
 
     public void stats(ArrayList<Integer> numeros){
-        System.out.println("Your states are:");
+        System.out.println("\nYour states are:");
         System.out.println("\t- Body: " + numeros.get(0));
         System.out.println("\t- Mind: " + numeros.get(1));
         System.out.println("\t- Spirit: " + numeros.get(2));
@@ -119,13 +119,13 @@ public class Vista {
     public void personatgeCreat(String nom){
         System.out.println("Tavern keeper: \"Any decent party needs one of those.\"\n" +
                 "\"I guess that means you’re a Paladin by now, nice!\"\n");
-        System.out.println("The new character" + nom + "has been created.\n ");
+        System.out.println("The new character " + nom + " has been created.\n ");
     }
 
 //----------------------------------------------------------Cas 2 --------------------------------------------------------------------------------------
 
     public void filterName(){
-        System.out.println("Tavern keeper: " + "\"" + "Lads! they want to see you!\"\n\"" +
+        System.out.println("Tavern keeper: " + "\"" + "Lads! they want to see you!\"\n" +
                 "Who piques your interest?\"\n");
         System.out.println("-> Enter the name of the Player to filter: ");
     }

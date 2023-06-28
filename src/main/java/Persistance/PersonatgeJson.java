@@ -72,8 +72,6 @@ public class PersonatgeJson {
             FileWriter fileWriter = new FileWriter(a);
             jsonArray.write(fileWriter);
             fileWriter.close();
-
-            System.out.println("JSONObject agregado con éxito.");
         } catch (IOException e) {
             e.printStackTrace();
         }

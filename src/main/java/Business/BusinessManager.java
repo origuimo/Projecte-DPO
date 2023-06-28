@@ -6,12 +6,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 import static Business.Dau.*;
-import static Persistance.AventuraApi.addAventuraApi;
-import static Persistance.AventuraJson.escriureAventura;
 
 public class BusinessManager {
 
@@ -283,388 +280,216 @@ public class BusinessManager {
         }
     }
 
-    private void cas4(Scanner scanner, ArrayList<Monstre> monstres, ArrayList<Personatge> personatges, ArrayList<Aventura> aventures, ArrayList<ArrayList<Monstre>> arrayDeArray, int enfrentaments) {
-        boolean ok;
-        presentationController.getVista().startAdventure();
-        if (personatges.size() < 3) {
-            presentationController.getVista().errorPersonatges();
-        } else {
-            for (int k = 0; k < aventures.size(); k++) {
-                Aventura z = aventures.get(k);
-                presentationController.getVista().aventures(k, z);
-            }
-        }
-        presentationController.getVista().chooseAdv();
-        int numAventura = 0;
-        ok = true;
-        try {
-            numAventura = Integer.parseInt(scanner.nextLine());
-        } catch (Exception e) {
-            presentationController.getVista().errorAdv();
-            ok = false;
-        }
-        while (numAventura > aventures.size() || numAventura < 1 || !ok) {
-            presentationController.getVista().errorAdv2();
-            try {
-                numAventura = Integer.parseInt(scanner.nextLine());
-                ok = true;
-            } catch (Exception e) {
-                presentationController.getVista().errorAdv();
-                ok = false;
-            }
-        }
-        numAventura--;
-        Aventura nomAcenturaAux = aventures.get(numAventura);
-        presentationController.getVista().confirmAdv(nomAcenturaAux);
-        int numCharacters = 0;
-        ok = true;
-        try {
-            numCharacters = Integer.parseInt(scanner.nextLine());
-        } catch (Exception e) {
-            presentationController.getVista().errorAdv();
-            ok = false;
-        }
-        while (numCharacters > 5 || numCharacters < 3 || !ok) {
-            presentationController.getVista().errorAdv2();
-            try {
-                numCharacters = Integer.parseInt(scanner.nextLine());
-                ok = true;
-            } catch (Exception e) {
-                presentationController.getVista().errorAdv();
-                ok = false;
-            }
-        }
-        presentationController.getVista().confirmChar(numCharacters);
+    public static ArrayList<Combat> orderCombat(ArrayList<Personatge> nousCharacters, ArrayList<ArrayList<Monstre>> arrayDeArray, int i, ArrayList<Monstre> monstres){
 
-
-        ArrayList<Personatge> nousCharacters = new ArrayList<>();
-
-        for (int i = 0; i < numCharacters; i++) {
-            presentationController.getVista().indexParty(i, numCharacters);
-            for (int j = 0; j < numCharacters; j++) {
-                if (nousCharacters.size() < (j + 1)) {
-                    presentationController.getVista().emptyParty(j);
-                } else {
-                    Personatge charactersAux = nousCharacters.get(j);
-                    presentationController.getVista().printchar(j, charactersAux);
-                }
-            }
-            presentationController.getVista().charAvailable();
-            for (int j = 0; j < personatges.size(); j++) {
-                Personatge pAux = personatges.get(j);
-                presentationController.getVista().charList(j, pAux);
-            }
-            presentationController.getVista().chooseChar(i);
-            int triaCharacter = 0;
-            ok = true;
-            try {
-                triaCharacter = Integer.parseInt(scanner.nextLine());
-            } catch (Exception e) {
-                presentationController.getVista().errorAdv();
-                ok = false;
-            }
-            while (triaCharacter > personatges.size() || triaCharacter < 1 || !ok) {
-                presentationController.getVista().errorAdv2();
-                try {
-                    triaCharacter = Integer.parseInt(scanner.nextLine());
-                    ok = true;
-                } catch (Exception e) {
-                    presentationController.getVista().errorAdv();
-                    ok = false;
-                }
-            }
-            triaCharacter--;
-            Personatge pAux = personatges.get(triaCharacter);
-            nousCharacters.add(pAux);
-        }
-        presentationController.getVista().indexPartyEnd(numCharacters);
-        for (int j = 0; j < numCharacters; j++) {
-            if (nousCharacters.size() < (j + 1)) {
-               presentationController.getVista().emptyParty(j);
-            } else {
-                Personatge charactersAux = nousCharacters.get(j);
-                presentationController.getVista().printchar(j, charactersAux);
+        ArrayList<Monstre> monstresAventura = arrayDeArray.get(i);
+        int iniciativa;
+        for (int j = 0; j < monstresAventura.size(); j++) {
+            Monstre monstre = monstresAventura.get(j);
+            for (int k = 0; k < monstre.getQuantitat(); k++) {
+                Monstre b = new Monstre(monstre.getName());
+                monstresAventura.add(b);
             }
         }
-        presentationController.getVista().startAdventure(nomAcenturaAux);
-
-        for (int i = 0; i < enfrentaments; i++) {
-            presentationController.getVista().startEncounter(i);
-            ArrayList<Monstre> monstres1;
-            monstres1 = arrayDeArray.get(i);
-            for (int j = 0; j < monstres1.size(); j++) {
-                Monstre monstreAux = monstres1.get(j);
-                presentationController.getVista().monstresEncounter(monstreAux);
-            }
-            presentationController.getVista().prepariationStage();
-            for (int j = 0; j < nousCharacters.size(); j++) {
-                Personatge personatge = nousCharacters.get(j);
-                if (personatge.getTipus().equals("Adventurer") || personatge.getTipus().equals("Guerrer")) {
-                    presentationController.getVista().prepaAV(personatge);
-                    personatge.setSpirit(personatge.getSpirit() + 1);
-                } else if (personatge.getTipus().equals("Campio")) {
-                    presentationController.getVista().prepaChamp(personatge);
-                    for (int k = 0; k < nousCharacters.size(); k++) {
-                        Personatge aux = nousCharacters.get(k);
-                        aux.setSpirit(aux.getSpirit() + 1);
-                    }
-                } else if (personatge.getTipus().equals("Clergue")) {
-                    presentationController.getVista().prepaClrg(personatge);
-                    for (int k = 0; k < nousCharacters.size(); k++) {
-                        Personatge aux = nousCharacters.get(k);
-                        aux.setMind(aux.getMind() + 1);
-                    }
-                } else if (personatge.getTipus().equals("Paladi")) {
-                    int num = dau3cares();
-                    presentationController.getVista().prepaPldi(personatge, num);
-                    for (int k = 0; k < nousCharacters.size(); k++) {
-                        Personatge aux = nousCharacters.get(k);
-                        aux.setMind(aux.getMind() + num);
-                    }
-                } else if (personatge.getTipus().equals("Mag")) {
-
+        ArrayList<Combat> ordre = new ArrayList<>();
+        for (int j = 0; j < monstresAventura.size(); j++) {
+            Monstre b = monstresAventura.get(j);
+            for (int k = 0; k < monstres.size(); k++) {
+                Monstre general = monstres.get(k);
+                if (b.getName().equals(general.getName())) {
+                    b.setHitPoints(general.getHitPoints());
+                    b.setExperience(general.getExperience());
                 }
             }
 
-
-            ArrayList<Monstre> monstresAventura = arrayDeArray.get(i);
-            int iniciativa;
-            for (int j = 0; j < monstresAventura.size(); j++) {
-                Monstre monstre = monstresAventura.get(j);
-                for (int k = 0; k < monstre.getQuantitat(); k++) {
-                    Monstre b = new Monstre(monstre.getName());
-                    monstresAventura.add(b);
-                }
-            }
-            ArrayList<Combat> ordre = new ArrayList<>();
-            for (int j = 0; j < monstresAventura.size(); j++) {
-                Monstre b = monstresAventura.get(j);
-                for (int k = 0; k < monstres.size(); k++) {
-                    Monstre general = monstres.get(k);
-                    if (b.getName().equals(general.getName())) {
-                        b.setHitPoints(general.getHitPoints());
-                        b.setExperience(general.getExperience());
-                    }
-                }
-
-                for (int k = 0; k < b.getQuantitat(); k++) {
-                    int num = daus12cares();
-                    iniciativa = num + b.getInitiative();
-                    Combat aux = new Combat(iniciativa, b.getName(), "Monster", b.getHitPoints(), b.getExperience(), true, b.getDamageType());
-                    ordre.add(aux);
-                }
-            }
-
-            for (int j = 0; j < nousCharacters.size(); j++) {
-
-                Personatge personatge = nousCharacters.get(j);
-                calculVida(personatge);
-                iniciativa = calculIniciatica(personatge);
-                String mal = calculMal(personatge);
-
-                Combat aux = new Combat(iniciativa, personatge.getName(), "persona", personatge.getHitPoints(), personatge.getXp(), true, mal);
+            for (int k = 0; k < b.getQuantitat(); k++) {
+                int num = daus12cares();
+                iniciativa = num + b.getInitiative();
+                Combat aux = new Combat(iniciativa, b.getName(), "Monster", b.getHitPoints(), b.getExperience(), true, b.getDamageType());
                 ordre.add(aux);
             }
-            presentationController.getVista().rollIniciative();
-            Collections.sort(ordre, Comparator.comparingInt(Combat::getIniciativa));
-            Collections.reverse(ordre);
+        }
 
-            for (int j = 0; j < ordre.size(); j++) {
-                Combat ordreAux = ordre.get(j);
-                presentationController.getVista().printInciative(ordreAux);
+        for (int j = 0; j < nousCharacters.size(); j++) {
+
+            Personatge personatge = nousCharacters.get(j);
+            calculVida(personatge);
+            iniciativa = calculIniciatica(personatge);
+            String mal = calculMal(personatge);
+
+            Combat aux = new Combat(iniciativa, personatge.getName(), "persona", personatge.getHitPoints(), personatge.getXp(), true, mal);
+            ordre.add(aux);
+        }
+        return ordre;
+    }
+
+    public static Resultat combatStage(ArrayList<Combat> ordre, ArrayList<Monstre> monstres, ArrayList<Personatge> nousCharacters, int nPlayers, int nMonstres, int xp){
+
+        for (int k = 0; k < ordre.size(); k++) {
+            int impacte = daus10cares();
+            int mult = 1;
+            if (impacte == 1) {
+                mult = 0;
+            } else if (impacte == 10) {
+                mult = 2;
             }
-            presentationController.getVista().combatStage();
-            int z = 1;
-            int nMonstres = ordre.size() - nousCharacters.size();
-            int nPlayers = nousCharacters.size();
-            int sumHitPoints = 0;
-            int xp = 0;
-            do {
-                presentationController.getVista().round(z);
+            Combat combat = ordre.get(k);
+            if (combat.getTipus().equals("Monster") && combat.isAlive()) {
+                for (int l = 0; l < monstres.size(); l++) {
+                    Monstre monstre = monstres.get(l);
+                    if (combat.getNom().equals(monstre.getName())) {
+                        int dmg = daumonstre(Integer.parseInt(monstre.getDamageDice().substring(1)));
+                        int jugadorAAtacar;
+                        boolean entrat = false;
+                        if (monstre.getChallenge().equals("Boss")) {
+                            List<String> jugadors = new ArrayList<>();
+                            for (int j = 0; j < ordre.size(); j++) {
+                                Combat player = ordre.get(j);
+                                if (player.getTipus().equals("persona") /*&& player.getHitPoints() > 0*/) {
+                                    player.setHitPoints(player.getHitPoints() - (dmg * mult));
+                                    for (int m = 0; m < nousCharacters.size(); m++) {
+                                        if (nousCharacters.get(m).getName().equals(player.getNom())) {
+                                            nousCharacters.get(m).setHitPoints(nousCharacters.get(m).getHitPoints() - dmg);
+                                            if (nousCharacters.get(m).getHitPoints() < 0) {
+                                                nousCharacters.get(m).setHitPoints(0);
+                                                player.setHitPoints(player.getHitPoints() - (dmg * mult));
+                                            }
+                                        }
+                                    }
+                                    jugadors.add(player.getNom());
+                                }
+                            }
+                            StringBuilder sb = new StringBuilder();
+                            for (int j = 0; j < jugadors.size(); j++) {
+                                if (j == 0) {
+                                    sb.append(jugadors.get(j));
+                                } else if (j == jugadors.size() - 1) {
+                                    sb.append(" y ").append(jugadors.get(j));
+                                } else {
+                                    sb.append(", ").append(jugadors.get(j));
+                                }
+                            }
+                            presentationController.getVista().bossAttack(monstre, sb, dmg);
+                            for (int j = 0; j < ordre.size(); j++) {
+                                Combat player = ordre.get(j);
+                                if (player.getHitPoints() <= 0 && player.getTipus().equals("persona") && player.isAlive()) {
+                                    presentationController.getVista().inconcient(player);
+                                    player.setHitPoints(0);
+                                    player.setAlive(false);
+                                    nPlayers--;
+                                }
+                            }
+                        } else {
+                            do {
+                                jugadorAAtacar = daumonstre(ordre.size());
+                                Combat player = ordre.get(jugadorAAtacar);
+                                if (player.getTipus().equals("persona") && player.getHitPoints() > 0) {
+                                    player.setHitPoints(player.getHitPoints() - (dmg * mult));
+                                    for (int j = 0; j < nousCharacters.size(); j++) {
+                                        if (nousCharacters.get(j).equals(player.getNom())) {
+                                            nousCharacters.get(j).setHitPoints(nousCharacters.get(j).getHitPoints() - (dmg * mult));
+                                            player.setHitPoints(player.getHitPoints() - (dmg * mult));
+                                            if (nousCharacters.get(j).getHitPoints() < 0) {
+                                                nousCharacters.get(j).setHitPoints(0);
+                                            }
+                                        }
+                                    }
+                                    entrat = true;
+                                }
+                            } while (!entrat);
+
+                            Combat player = ordre.get(jugadorAAtacar);
+                            presentationController.getVista().monsterAttack(monstre, player, dmg);
+                            if (player.getHitPoints() <= 0 && player.isAlive()) {
+                                presentationController.getVista().inconcient(player);
+                                player.setHitPoints(0);
+                                player.setAlive(false);
+                                nPlayers--;
+                            }
+                        }
+                    }
+                }
+            } else if (combat.getTipus().equals("persona") && combat.isAlive()) {
                 for (int j = 0; j < nousCharacters.size(); j++) {
                     Personatge personatge = nousCharacters.get(j);
-                    presentationController.getVista().personHealth(personatge);
-                }
+                    if (combat.getNom().equals(personatge.getName()) && combat.getHitPoints() > 0) {
+                        int dmg = 0, curacio = 0;
+                        boolean entrat = false;
+                        int monstreAAtacar = 0;
 
-                for (int k = 0; k < ordre.size(); k++) {
-                    int impacte = daus10cares();
-                    int mult = 1;
-                    if (impacte == 1) {
-                        mult = 0;
-                    } else if (impacte == 10) {
-                        mult = 2;
-                    }
-                    Combat combat = ordre.get(k);
-                    if (combat.getTipus().equals("Monster") && combat.isAlive()) {
-                        for (int l = 0; l < monstres.size(); l++) {
-                            Monstre monstre = monstres.get(l);
-                            if (combat.getNom().equals(monstre.getName())) {
-                                int dmg = daumonstre(Integer.parseInt(monstre.getDamageDice().substring(1)));
-                                int jugadorAAtacar;
-                                boolean entrat = false;
-                                if (monstre.getChallenge().equals("Boss")) {
-                                    List<String> jugadors = new ArrayList<>();
-                                    for (int j = 0; j < ordre.size(); j++) {
-                                        Combat player = ordre.get(j);
-                                        if (player.getTipus().equals("persona") /*&& player.getHitPoints() > 0*/) {
-                                            player.setHitPoints(player.getHitPoints() - (dmg * mult));
-                                            for (int m = 0; m < nousCharacters.size(); m++) {
-                                                if (nousCharacters.get(m).getName().equals(player.getNom())) {
-                                                    nousCharacters.get(m).setHitPoints(nousCharacters.get(m).getHitPoints() - dmg);
-                                                    if (nousCharacters.get(m).getHitPoints() < 0) {
-                                                        nousCharacters.get(m).setHitPoints(0);
-                                                        player.setHitPoints(player.getHitPoints() - (dmg * mult));
-                                                    }
-                                                }
-                                            }
-                                            jugadors.add(player.getNom());
-                                        }
-                                    }
-                                    StringBuilder sb = new StringBuilder();
-                                    for (int j = 0; j < jugadors.size(); j++) {
-                                        if (j == 0) {
-                                            sb.append(jugadors.get(j));
-                                        } else if (j == jugadors.size() - 1) {
-                                            sb.append(" y ").append(jugadors.get(j));
-                                        } else {
-                                            sb.append(", ").append(jugadors.get(j));
-                                        }
-                                    }
-                                    presentationController.getVista().bossAttack(monstre, sb, dmg);
-                                    for (int j = 0; j < ordre.size(); j++) {
-                                        Combat player = ordre.get(j);
-                                        if (player.getHitPoints() <= 0 && player.getTipus().equals("persona") && player.isAlive()) {
-                                            presentationController.getVista().inconcient(player);
-                                            player.setHitPoints(0);
-                                            player.setAlive(false);
-                                            nPlayers--;
-                                        }
-                                    }
-                                } else {
-                                    do {
-                                        jugadorAAtacar = daumonstre(ordre.size());
-                                        Combat player = ordre.get(jugadorAAtacar);
-                                        if (player.getTipus().equals("persona") && player.getHitPoints() > 0) {
-                                            player.setHitPoints(player.getHitPoints() - (dmg * mult));
-                                            for (int j = 0; j < nousCharacters.size(); j++) {
-                                                if (nousCharacters.get(j).equals(player.getNom())) {
-                                                    nousCharacters.get(j).setHitPoints(nousCharacters.get(j).getHitPoints() - (dmg * mult));
-                                                    player.setHitPoints(player.getHitPoints() - (dmg * mult));
-                                                    if (nousCharacters.get(j).getHitPoints() < 0) {
-                                                        nousCharacters.get(j).setHitPoints(0);
-                                                    }
-                                                }
-                                            }
-                                            entrat = true;
-                                        }
-                                    } while (!entrat);
+                        curacio = curacioC(personatge, ordre, nousCharacters);
 
-                                    Combat player = ordre.get(jugadorAAtacar);
-                                    presentationController.getVista().monsterAttack(monstre, player, dmg);
-                                    if (player.getHitPoints() <= 0 && player.isAlive()) {
-                                        presentationController.getVista().inconcient(player);
-                                        player.setHitPoints(0);
-                                        player.setAlive(false);
-                                        nPlayers--;
+                        if (curacio != 0) {
+
+                        } else {
+                            dmg = dmgClasse(personatge, ordre) * mult;
+                            if (personatge.getTipus().equals("Guerrer") || personatge.getTipus().equals("Campio")) {
+                                int vidamin = 10000;
+                                for (int l = 0; l < ordre.size(); l++) {
+                                    Combat monstre = ordre.get(l);
+                                    if (monstre.getTipus().equals("Monster")) {
+                                        if (monstre.getHitPoints() < vidamin) {
+                                            vidamin = monstre.getHitPoints();
+                                            monstreAAtacar = l;
+                                        }
                                     }
                                 }
-                            }
-                        }
-                    } else if (combat.getTipus().equals("persona") && combat.isAlive()) {
-                        for (int j = 0; j < nousCharacters.size(); j++) {
-                            Personatge personatge = nousCharacters.get(j);
-                            if (combat.getNom().equals(personatge.getName()) && combat.getHitPoints() > 0) {
-                                int dmg = 0, curacio = 0;
-                                boolean entrat = false;
-                                int monstreAAtacar = 0;
-
-                                curacio = curacioC(personatge, ordre, nousCharacters);
-
-                                if (curacio != 0) {
-
-                                } else {
-                                    dmg = dmgClasse(personatge, ordre) * mult;
-                                    if (personatge.getTipus().equals("Guerrer") || personatge.getTipus().equals("Campio")) {
-                                        int vidamin = 10000;
-                                        for (int l = 0; l < ordre.size(); l++) {
-                                            Combat monstre = ordre.get(l);
-                                            if (monstre.getTipus().equals("Monster")) {
-                                                if (monstre.getHitPoints() < vidamin) {
-                                                    vidamin = monstre.getHitPoints();
-                                                    monstreAAtacar = l;
-                                                }
-                                            }
-                                        }
-                                    } else {
-                                        do {
-                                            monstreAAtacar = daumonstre(ordre.size());
-                                            Combat monstre = ordre.get(monstreAAtacar);
-                                            if (monstre.getTipus().equals("Monster")) {
-                                                if (monstre.getTipus().equals("Boss")) {
-                                                    if (monstre.getMal().equals(combat.getMal())) {
-                                                        dmg = dmg / 2;
-                                                    }
-                                                }
-                                                entrat = true;
-                                            }
-                                        } while (!entrat);
-                                    }
-                                    Combat monstre = ordre.get(monstreAAtacar);
-                                    monstre.setHitPoints(monstre.getHitPoints() - dmg);
-
-                                    presentationController.getVista().personAttack(personatge, monstre, dmg);
-                                    if (monstre.getHitPoints() <= 0 && monstre.isAlive()) {
-                                        presentationController.getVista().dies(monstre);
-                                        monstre.setAlive(false);
-                                        nMonstres = ordre.size() - nousCharacters.size();
-                                        xp += monstre.getXp();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                    //}
-                }
-                presentationController.getVista().end(z);
-                z++;
-
-            } while (nMonstres > 0 && nPlayers > 0);
-            presentationController.getVista().defeated();
-
-            if (sumHitPoints > 0) {
-                presentationController.getVista().restStage();
-                for (int j = 0; j < nousCharacters.size(); j++) {
-                    Personatge aux = nousCharacters.get(j);
-                    aux.setXp(aux.getXp() + xp);
-                    presentationController.getVista().gainXp(aux, xp);
-
-                }
-                for (int j = 0; j < ordre.size(); j++) {
-                    Combat aux = ordre.get(j);
-                    for (int k = 0; k < nousCharacters.size(); k++) {
-                        Personatge personatge = nousCharacters.get(k);
-                        if (aux.getNom().equals(personatge.getName())) {
-                            if (aux.getHitPoints() > 0) {
-                                int dau = dau8cares();
-                                int cura = dau + personatge.getMind();
-                                if ((aux.getHitPoints() + cura) > personatge.getMaxPoints()) {
-                                    aux.setHitPoints(personatge.getMaxPoints());
-                                } else {
-                                    aux.setHitPoints(aux.getHitPoints() + cura);
-                                }
-                                presentationController.getVista().heals(aux, cura);
                             } else {
-                                presentationController.getVista().unconscious(aux);
+                                do {
+                                    monstreAAtacar = daumonstre(ordre.size());
+                                    Combat monstre = ordre.get(monstreAAtacar);
+                                    if (monstre.getTipus().equals("Monster")) {
+                                        if (monstre.getTipus().equals("Boss")) {
+                                            if (monstre.getMal().equals(combat.getMal())) {
+                                                dmg = dmg / 2;
+                                            }
+                                        }
+                                        entrat = true;
+                                    }
+                                } while (!entrat);
+                            }
+                            Combat monstre = ordre.get(monstreAAtacar);
+                            monstre.setHitPoints(monstre.getHitPoints() - dmg);
+
+                            presentationController.getVista().personAttack(personatge, monstre, dmg);
+                            if (monstre.getHitPoints() <= 0 && monstre.isAlive()) {
+                                presentationController.getVista().dies(monstre);
+                                monstre.setAlive(false);
+                                nMonstres = ordre.size() - nousCharacters.size();
+                                xp += monstre.getXp();
                             }
                         }
+                    }
+                }
+            }
+            //}
+        }
+        Resultat resultat = new Resultat(nPlayers, nMonstres);
+        return  resultat;
+    }
+
+    public static void endBattle(ArrayList<Combat> ordre, ArrayList<Personatge> nousCharacters){
+        for (int j = 0; j < ordre.size(); j++) {
+            Combat aux = ordre.get(j);
+            for (int k = 0; k < nousCharacters.size(); k++) {
+                Personatge personatge = nousCharacters.get(k);
+                if (aux.getNom().equals(personatge.getName())) {
+                    if (aux.getHitPoints() > 0) {
+                        int dau = dau8cares();
+                        int cura = dau + personatge.getMind();
+                        if ((aux.getHitPoints() + cura) > personatge.getMaxPoints()) {
+                            aux.setHitPoints(personatge.getMaxPoints());
+                        } else {
+                            aux.setHitPoints(aux.getHitPoints() + cura);
+                        }
+                        presentationController.getVista().heals(aux, cura);
+                    } else {
+                        presentationController.getVista().unconscious(aux);
                     }
                 }
             }
         }
     }
-
-
-
     public static int printPersons(int data, String nomJugador) throws IOException {
         int x = 1;
         ArrayList<Personatge> personatges;

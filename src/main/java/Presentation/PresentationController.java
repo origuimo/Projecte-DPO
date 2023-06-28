@@ -6,6 +6,8 @@ import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 import static Business.Dau.dau3cares;
@@ -14,7 +16,9 @@ public class PresentationController {
 
     private static Vista vista = null;
 
-    public PresentationController() {this.vista = new Vista();}
+    public PresentationController() {
+        this.vista = new Vista();
+    }
 
     public static Vista getVista() {
         return vista;
@@ -331,6 +335,8 @@ public class PresentationController {
                                 getVista().printchar(j, charactersAux);
                             }
                         }
+                        ArrayList<Monstre> monstres;
+                        monstres = BusinessManager.getMonstres(data);
                         getVista().startAdventure(nomAcenturaAux);
                         for (int i = 0; i < nomAcenturaAux.getEnfrentaments(); i++) {
                             getVista().startEncounter(i);
@@ -342,16 +348,57 @@ public class PresentationController {
                             }
                             getVista().prepariationStage();
                             BusinessManager.preparationStage(nousCharacters);
+                            ArrayList<Combat> ordre = BusinessManager.orderCombat(nousCharacters, arrayDeArray, i, monstres);
+
+                            getVista().rollIniciative();
+                            Collections.sort(ordre, Comparator.comparingInt(Combat::getIniciativa));
+                            Collections.reverse(ordre);
+
+                            for (int j = 0; j < ordre.size(); j++) {
+                                Combat ordreAux = ordre.get(j);
+                                getVista().printInciative(ordreAux);
+                            }
+                            getVista().combatStage();
+
+                            int z = 1;
+                            int nMonstres = ordre.size() - nousCharacters.size();
+                            int nPlayers = nousCharacters.size();
+                            int sumHitPoints = 0;
+                            int xp = 0;
+                            do {
+                                getVista().round(z);
+                                for (int j = 0; j < nousCharacters.size(); j++) {
+                                    Personatge personatge = nousCharacters.get(j);
+                                    getVista().personHealth(personatge);
+                                }
+
+                                Resultat resultat = BusinessManager.combatStage(ordre, monstres, nousCharacters, nPlayers, nMonstres, xp);
+                                nPlayers = resultat.getnPlayers();
+                                nMonstres = resultat.getnMonstres();
+                                getVista().end(z);
+                                z++;
+                            } while (nMonstres > 0 && nPlayers > 0);
+                            getVista().defeated();
+                            if (sumHitPoints > 0) {
+                                getVista().restStage();
+                                for (int j = 0; j < nousCharacters.size(); j++) {
+                                    Personatge aux = nousCharacters.get(j);
+                                    aux.setXp(aux.getXp() + xp);
+                                    getVista().gainXp(aux, xp);
+                                }
+                                BusinessManager.endBattle(ordre, nousCharacters);
+
+                            }
                         }
-                            break;
+                        break;
 
-                            case 5:
-                                getVista().leave();
-                                break;
+                    case 5:
+                        getVista().leave();
+                        break;
 
-                            default:
-                                getVista().invalid();
-                                break;
+                    default:
+                        getVista().invalid();
+                        break;
                 }
             } while (opcio != 5);
         }
