@@ -113,7 +113,7 @@ public class Vista {
     public void chClass(){
         System.out.println("Tavern keeper: \"Looking good!\"\n" +
                 "\"And, lastly, ?\"\n");
-        System.out.println("-> Enter the character’s initial class [Adventurer, Cleric, Mage]: ");
+        System.out.println("-> Enter the character’s initial class [Adventurer, Clergue, Mag]: ");
     }
 
     public void personatgeCreat(String nom){
@@ -457,6 +457,16 @@ public class Vista {
 
     public void invalid(){
         System.out.println("Invalid option!");
+    }
+
+    public void evolve1(Personatge aux){
+        System.out.println(aux + " evolves to Champion");
+    }
+    public void evolve2(Personatge aux){
+        System.out.println(aux + " evolves to Warrior");
+    }
+    public void evolve3(Personatge aux){
+        System.out.println(aux + " evolves to Paladin");
     }
 
 

@@ -7,27 +7,51 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
+/**
+ * Classe que representa les aventures.
+ */
 public class Aventura {
-    String nom;
-    int enfrentaments;
-    JSONArray monstres = new JSONArray();
 
+    /**
+     * nom de l'aventura
+     */
+    private String nom;
 
-    public Aventura(String nom, int enfrentaments) {
-        this.nom = nom;
-        this.enfrentaments = enfrentaments;
-    }
+    /**
+     * numero d'enfrentaments en aquesta aventura
+     */
+    private int enfrentaments;
 
+    /**
+     * array amb les llistes de monstres contra els que lluitem a cada enfrentament
+     */
+    private JSONArray monstres;
+
+    /**
+     * Constructor de l'aventura
+     * @param nom nom de l'aventura
+     * @param enfrentaments numero d'enfrentaments
+     * @param monstres monstres de l'aventura
+     */
     public Aventura(String nom, int enfrentaments, JSONArray monstres) {
         this.nom = nom;
         this.enfrentaments = enfrentaments;
         this.monstres = monstres;
     }
 
+    /**
+     * Passem la aventura a tipus json per guardar-la
+     * @return String en format JSON
+     */
     public String toStringJsonAv() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
     }
+
+    /**
+     * metode toString de l'aventura
+     * @return Atributs de l'aentura printats
+     */
     public String toString() {
         return "* Name:" + nom + "\n" +
                 "* Enfrentaments:" + enfrentaments + "\n" +
@@ -37,16 +61,8 @@ public class Aventura {
         return nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
     public int getEnfrentaments() {
         return enfrentaments;
-    }
-
-    public void setEnfrentaments(int enfrentaments) {
-        this.enfrentaments = enfrentaments;
     }
 
 }

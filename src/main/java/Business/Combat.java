@@ -3,13 +3,51 @@ package Business;
 public class Combat {
 
 
-    int iniciativa;
-    String nom;
-    String tipus;
-    int HitPoints;
-    int xp;
-    boolean alive;
-    String mal;
+    /**
+     * Iniciativa de cada membre del combat
+     */
+    private int iniciativa;
+
+    /**
+     * Nom del membre
+     */
+    private String nom;
+
+    /**
+     * Tipus (monstre o personatge)
+     */
+    private String tipus;
+
+    /**
+     * Punts de vida
+     */
+    private int HitPoints;
+
+    /**
+     * Experiencia del personatge
+     */
+    private int xp;
+
+    /**
+     * Si esta viu o mort
+     */
+    private boolean alive;
+
+    /**
+     * El mal que fa
+     */
+    private String mal;
+
+    /**
+     * Constructor de Combat
+     * @param iniciativa
+     * @param nom
+     * @param tipus
+     * @param HitPoints
+     * @param xp
+     * @param alive
+     * @param mal
+     */
     public Combat(int iniciativa, String nom, String tipus, int HitPoints, int xp, boolean alive, String mal) {
         this.iniciativa = iniciativa;
         this.nom = nom;
@@ -23,9 +61,6 @@ public class Combat {
         return iniciativa;
     }
 
-    public void setIniciativa(int iniciativa) {
-        this.iniciativa = iniciativa;
-    }
 
     public String getNom() {
         return nom;
@@ -39,20 +74,12 @@ public class Combat {
         return mal;
     }
 
-    public void setMal(String mal) {
-        this.mal = mal;
-    }
-
     public boolean isAlive() {
         return alive;
     }
 
     public void setAlive(boolean alive) {
         this.alive = alive;
-    }
-
-    public void setXp(int xp) {
-        this.xp = xp;
     }
 
     public int getHitPoints() {
@@ -63,15 +90,8 @@ public class Combat {
         HitPoints = hitPoints;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
     public String getTipus() {
         return tipus;
     }
 
-    public void setTipus(String tipus) {
-        this.tipus = tipus;
-    }
 }

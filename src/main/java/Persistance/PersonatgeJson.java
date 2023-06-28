@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public class PersonatgeJson {
 
-    static File a = new File("src/main/java/Fitxers/characters.json");
+    private static File a = new File("src/main/java/Fitxers/characters.json");
     public static ArrayList<Personatge> llegirPersonatges(){
 
         String input = "";

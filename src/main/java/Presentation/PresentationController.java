@@ -5,10 +5,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Scanner;
+import java.util.*;
 
 import static Business.Dau.dau3cares;
 
@@ -210,7 +207,7 @@ public class PresentationController {
                                                         ok = false;
                                                     }
                                                 }
-                                                Monstre monstreAux = BusinessManager.deleteMonster(num_Monstre, monstres1);
+                                                Monstre monstreAux = BusinessManager.deleteMonster(num_Monstre, monstres1, monstresJSON);
                                                 getVista().monsterDeleted(monstreAux);
                                                 break;
                                             case 3:
@@ -375,6 +372,7 @@ public class PresentationController {
                                 Resultat resultat = BusinessManager.combatStage(ordre, monstres, nousCharacters, nPlayers, nMonstres, xp);
                                 nPlayers = resultat.getnPlayers();
                                 nMonstres = resultat.getnMonstres();
+                                xp = resultat.getXp();
                                 getVista().end(z);
                                 z++;
                             } while (nMonstres > 0 && nPlayers > 0);
@@ -385,9 +383,9 @@ public class PresentationController {
                                     Personatge aux = nousCharacters.get(j);
                                     aux.setXp(aux.getXp() + xp);
                                     getVista().gainXp(aux, xp);
+                                    BusinessManager.evolve(aux);
                                 }
                                 BusinessManager.endBattle(ordre, nousCharacters);
-
                             }
                         }
                         break;

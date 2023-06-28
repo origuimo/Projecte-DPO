@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class PersonatgeApi {
 
-    static String url = "https://balandrau.salle.url.edu/dpoo/S1-Project_32/characters";
+    private static String url = "https://balandrau.salle.url.edu/dpoo/S1-Project_32/characters";
     public static ArrayList<Personatge> llegirPersonatgesApi() throws IOException {
         boolean llegit;
         ApiHelper apiHelper = new ApiHelper();

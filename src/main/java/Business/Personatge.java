@@ -4,16 +4,62 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class Personatge {
-    String name;
-    String player;
-    int xp;
-    int body;
-    int mind;
-    int spirit;
-    String tipus;
-    int hitPoints;
-    int maxPoints;
 
+    /**
+     * Nom del personatge
+     */
+    private String name;
+
+    /**
+     * Jugador que ha creat el personatge
+     */
+    private String player;
+
+    /**
+     * Experiencia del personatge
+     */
+    private int xp;
+
+    /**
+     * Cos del personatge
+     */
+    private int body;
+
+    /**
+     * Mentalitat del personatge
+     */
+    private int mind;
+
+    /**
+     * Esperit del personatge
+     */
+    private int spirit;
+
+    /**
+     * Tipus de personatge
+     */
+    private String tipus;
+
+    /**
+     * Vida actual del personatge
+     */
+    private int hitPoints;
+
+    /**
+     * Vida maxima del personatge
+     */
+    private int maxPoints;
+
+    /**
+     * Constructor del Personatge
+     * @param name
+     * @param player
+     * @param xp
+     * @param body
+     * @param mind
+     * @param spirit
+     * @param tipus
+     */
     public Personatge(String name, String player, int xp, int body, int mind, int spirit, String tipus) {
         this.name = name;
         this.player = player;
@@ -24,6 +70,10 @@ public class Personatge {
         this.tipus = tipus;
     }
 
+    /**
+     * Passar el personatge a un json String per guardar-ho a la api
+     * @return el string generat
+     */
     public String toStringJson() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
@@ -50,6 +100,10 @@ public class Personatge {
         this.hitPoints = hitPoints;
     }
 
+    /**
+     * toString per printar la informació del Personatge
+     * @return print
+     */
     @Override
     public String toString() {
         return "* Name:" + name + "\n" +
@@ -66,16 +120,8 @@ public class Personatge {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public String getPlayer() {
         return player;
-    }
-
-    public void setPlayer(String player) {
-        this.player = player;
     }
 
     public int getXp() {
@@ -88,10 +134,6 @@ public class Personatge {
 
     public int getBody() {
         return body;
-    }
-
-    public void setBody(int body) {
-        this.body = body;
     }
 
     public int getMind() {
