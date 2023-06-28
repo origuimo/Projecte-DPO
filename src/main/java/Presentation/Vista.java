@@ -4,7 +4,7 @@ import Business.*;
 import java.util.*;
 
 
-public class Controller {
+public class Vista {
 
     public void pantallaInicial(){
         System.out.println("\n" +
@@ -111,14 +111,14 @@ public class Controller {
     }
 
     public void chClass(){
-        System.out.println("Tavern keeper: “Looking good!”\n" +
-                "“And, lastly, ?”\n");
+        System.out.println("Tavern keeper: \"Looking good!\"\n" +
+                "\"And, lastly, ?\"\n");
         System.out.println("-> Enter the character’s initial class [Adventurer, Cleric, Mage]: ");
     }
 
     public void personatgeCreat(String nom){
-        System.out.println("Tavern keeper: “Any decent party needs one of those.”\n" +
-                "“I guess that means you’re a Paladin by now, nice!”\n");
+        System.out.println("Tavern keeper: \"Any decent party needs one of those.\"\n" +
+                "\"I guess that means you’re a Paladin by now, nice!\"\n");
         System.out.println("The new character" + nom + "has been created.\n ");
     }
 
@@ -176,7 +176,7 @@ public class Controller {
 
 
     public void createAventura(){
-        System.out.println("Tavern keeper: “Planning an adventure? Good luck with that!“");
+        System.out.println("Tavern keeper: \"Planning an adventure? Good luck with that!\"");
         System.out.println("-> Name your adventure: ");
     }
 
@@ -185,8 +185,8 @@ public class Controller {
     }
 
     public void encounters(String nomAventura){
-        System.out.println("Tavern keeper: “You plan to undertake " + nomAventura + ", really?“\n" +
-                "“How long will that take?“");
+        System.out.println("Tavern keeper: \"You plan to undertake " + nomAventura + ", really?\"\n" +
+                "\"How long will that take?\"");
         System.out.println("-> How many encounters do you want [1..4]: ");
     }
 
@@ -204,7 +204,7 @@ public class Controller {
     }
 
     public void sumEncounters(int enfrentaments){
-        System.out.println("Tavern keeper: “" + enfrentaments + " encounters? That is too much for me...“");
+        System.out.println("Tavern keeper: \"" + enfrentaments + " encounters? That is too much for me...\"");
     }
 
     public void encounter(int j, int enfrentaments){
@@ -262,7 +262,7 @@ public class Controller {
     }
 
     public void endCase3(String nomAventura){
-        System.out.println("Tavern keeper: “Great plan lad! I hope you won’t die!“");
+        System.out.println("Tavern keeper: \"Great plan lad! I hope you won’t die!\"");
         System.out.println("The new adventure " + nomAventura + " has been created.\n");
     }
 
@@ -270,8 +270,8 @@ public class Controller {
 
 
     public void startAdventure(){
-        System.out.println("Tavern keeper: “So, you are looking to go on an adventure?“\n" +
-                "“Where do you fancy going?“");
+        System.out.println("Tavern keeper: \"So, you are looking to go on an adventure?\"\n" +
+                "\"Where do you fancy going?\"");
         System.out.println("Available adventures:");
     }
 
@@ -296,14 +296,14 @@ public class Controller {
     }
 
     public void confirmAdv(Aventura nomAcenturaAux){
-        System.out.println("Tavern keeper: “" + nomAcenturaAux.getNom() + " it is!“\n" +
-                "“And how many people shall join you?“");
+        System.out.println("Tavern keeper: \"" + nomAcenturaAux.getNom() + " it is!\"\n" +
+                "\"And how many people shall join you?\"");
         System.out.println("-> Choose a number of characters [3..5]: ");
     }
 
     public void confirmChar(int numCharacters){
-        System.out.println("Tavern keeper: “Great," + numCharacters + " it is.“\n" +
-                "“Who among these lads shall join you?“");
+        System.out.println("Tavern keeper: \"Great," + numCharacters + " it is.\"\n" +
+                "\"Who among these lads shall join you?\"");
     }
 
     public void indexParty(int i, int numCharacters){
@@ -339,8 +339,8 @@ public class Controller {
 
     public void startAdventure(Aventura nomAcenturaAux){
         System.out.println("------------------------------\n");
-        System.out.println("Tavern keeper: “Great, good luck on your adventure lads!“");
-        System.out.println("The “" + nomAcenturaAux.getNom() + "“ will start soon...\n");
+        System.out.println("Tavern keeper: \"Great, good luck on your adventure lads!\"");
+        System.out.println("The \"" + nomAcenturaAux.getNom() + "\" will start soon...\n");
     }
 
     public void startEncounter(int i){

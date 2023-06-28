@@ -23,8 +23,9 @@ public class AventuraApi {
         for (int i = 0; i < aventuresJSON.length(); i++) {
 
             JSONObject tmpAventuresJSON = aventuresJSON.getJSONObject(i);
-            Aventura b = new Aventura(tmpAventuresJSON.getString("name"),
-                    tmpAventuresJSON.getInt("enfrentaments"));
+            Aventura b = new Aventura(tmpAventuresJSON.getString("Nom"),
+                    tmpAventuresJSON.getInt("NumEnfrentaments"),
+                    tmpAventuresJSON.getJSONArray("Enfrentaments"));
             aventuras.add(b);
         }
         return aventuras;
